@@ -6,7 +6,10 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController controller;
     private Vector3 playerVelocity;
+    private bool isGrounded;
     public float speed = 6f;
+    public float gravity = -10f;
+    public float jumpHeight = 1.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        isGrounded = controller.isGrounded;
     }
 
     //recieves input from out InputManager file and applies them to the character controller
@@ -27,5 +30,19 @@ public class PlayerMovement : MonoBehaviour
         moveDirection.x = input.x;
         moveDirection.z = input.y;
         controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
+        playerVelocity.y += gravity * Time.deltaTime;
+        if(isGrounded && playerVelocity.y < 0)
+        {
+            playerVelocity.y = -2.2f;
+        }
+        controller.Move(playerVelocity * Time.deltaTime);
+    }
+
+    public void Jump()
+    {
+        if (isGrounded)
+        {
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.5f * gravity);
+        }
     }
 }
