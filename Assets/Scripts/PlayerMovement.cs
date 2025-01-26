@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     // To track crouch state
     private bool crouching = false; 
-    private bool lerpCrouch = false; 
+    private bool lerpCrouch = false;
+    // Track whether the player is sprinting
+    private bool sprint = false;  
 
-    public float speed = 6f;
+    public float speed = 5f;
     public float gravity = -10f;
     public float jumpHeight = 1.5f;
     private float crouchTimer = 0f; // Timer to manage crouch transitions
@@ -26,7 +29,15 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
-
+        
+        sprint = Keyboard.current.leftShiftKey.isPressed;  // True when holding Left Shift, false when released
+    
+        if (sprint)
+            speed = 8;  // Increase speed when sprinting
+        else
+            speed = 5;  // Normal speed when not sprinting
+        
+        
         if (lerpCrouch)
         {
             crouchTimer += Time.deltaTime;
@@ -77,5 +88,5 @@ public class PlayerMovement : MonoBehaviour
         lerpCrouch = true;
     }
 
-
+    
 }
