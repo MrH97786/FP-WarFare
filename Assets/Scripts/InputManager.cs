@@ -18,7 +18,9 @@ public class InputManager : MonoBehaviour
         onFoot = playerInput.OnFoot;
         movement = GetComponent<PlayerMovement>();
         look = GetComponent<PlayerLook>();
+
         onFoot.Jump.performed += ctx => movement.Jump();
+        onFoot.Crouch.performed += ctx => movement.Crouch();
     }
 
     // Update is called once per frame

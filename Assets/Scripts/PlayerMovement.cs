@@ -7,9 +7,14 @@ public class PlayerMovement : MonoBehaviour
     private CharacterController controller;
     private Vector3 playerVelocity;
     private bool isGrounded;
+    // To track crouch state
+    private bool crouching = false; 
+    private bool lerpCrouch = false; 
+
     public float speed = 6f;
     public float gravity = -10f;
     public float jumpHeight = 1.5f;
+    private float crouchTimer = 0f; // Timer to manage crouch transitions
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +26,25 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
+
+        if (lerpCrouch)
+        {
+            crouchTimer += Time.deltaTime;
+            float c = crouchTimer / 1;
+            c *= c;
+            if (crouching)
+                // When crouching, reduce height to 1
+                controller.height = Mathf.Lerp(controller.height, 1, c); 
+            else
+                // When standing, increase height to 2
+                controller.height = Mathf.Lerp(controller.height, 2, c);
+
+            if (c > 1)
+            {
+                lerpCrouch = false;
+                crouchTimer = 0f;
+            }        
+        }
     }
 
     //recieves input from out InputManager file and applies them to the character controller
@@ -45,4 +69,13 @@ public class PlayerMovement : MonoBehaviour
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.5f * gravity);
         }
     }
+
+    public void Crouch()
+    {
+        crouching = !crouching;
+        crouchTimer = 0;
+        lerpCrouch = true;
+    }
+
+
 }
