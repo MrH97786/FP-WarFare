@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 42178751}
   - component: {fileID: 42178750}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: ScreenUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -926,6 +926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7867f2cc71121ae4cab01f0d65d6ef9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useEvents: 0
   promptMessage: Use Keypad
   door: {fileID: 1295879509}
 --- !u!4 &1337635310 stripped
@@ -1711,19 +1712,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.74148554
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.6709689
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1731,7 +1732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -84.284
       objectReference: {fileID: 0}
     - target: {fileID: 1384929386414167535, guid: e3d7a6a2da48b244cac55396ac918add, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
