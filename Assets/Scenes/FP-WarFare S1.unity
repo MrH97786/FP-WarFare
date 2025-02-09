@@ -1238,6 +1238,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 
   enemyPath: {fileID: 628312419}
+  detectionRange: 20
+  fieldOfView: 85
 --- !u!1 &692489241
 GameObject:
   m_ObjectHideFlags: 0
@@ -3256,6 +3258,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7334087059927173125, guid: 0f0c1fa65135b154486f55223272d5dd, type: 3}
+      propertyPath: m_Speed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7334087059927173125, guid: 0f0c1fa65135b154486f55223272d5dd, type: 3}
       propertyPath: m_BaseOffset
       value: 1
