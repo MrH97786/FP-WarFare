@@ -11,10 +11,14 @@ public class PatrolState : EnemyBaseState
     {
 
     }
-
+    
     public override void Perform()
     {
         Patrol();
+        if (enemy.DetectPlayer())
+        {
+            stateController.ChangeState(new AttackState()); // change to attack state
+        }
     }
 
     public override void Exit()

@@ -11,8 +11,7 @@ GameObject:
   - component: {fileID: 576846078391662923}
   - component: {fileID: 5802429877360825851}
   - component: {fileID: 1748700713880323754}
-  - component: {fileID: 2869609623184684275}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyRightEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,19 +82,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &2869609623184684275
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 319056146998192248}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &807205542491800702
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,8 +194,7 @@ GameObject:
   - component: {fileID: 2994422895104404140}
   - component: {fileID: 6465362694235939851}
   - component: {fileID: 6248082805329419653}
-  - component: {fileID: 4604566376856867314}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyLeftEyebrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -280,19 +265,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4604566376856867314
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2602677233937660248}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4520861277069750214
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,8 +276,7 @@ GameObject:
   - component: {fileID: 632351481086352889}
   - component: {fileID: 1128833029937304580}
   - component: {fileID: 5502358960301159925}
-  - component: {fileID: 818498000800137923}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyRightEyebrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,19 +347,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &818498000800137923
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4520861277069750214}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5248047788503711218
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,8 +358,7 @@ GameObject:
   - component: {fileID: 5589959710022989827}
   - component: {fileID: 2768965217848170531}
   - component: {fileID: 4339021807006138557}
-  - component: {fileID: 7772737673658516323}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyLeftEye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -472,19 +429,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7772737673658516323
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5248047788503711218}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8918982508887764681
 GameObject:
   m_ObjectHideFlags: 0

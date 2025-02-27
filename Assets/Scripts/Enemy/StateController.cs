@@ -5,12 +5,10 @@ using UnityEngine;
 public class StateController : MonoBehaviour
 {
     public EnemyBaseState activeState;
-    public PatrolState patrolState;
 
     public void Initialise()
     {
-        patrolState = new PatrolState();
-        ChangeState(patrolState);
+        ChangeState(new PatrolState());
     }
 
     // Start is called before the first frame update

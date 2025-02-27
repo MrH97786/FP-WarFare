@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
     private GameObject player;
     public float detectionRange = 20f;
     public float fieldOfView = 85f;
+    public float eyeLevel;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         DetectPlayer();
+        currentState = stateController.activeState.ToString();
     }
 
     public bool DetectPlayer()
@@ -38,15 +40,23 @@ public class Enemy : MonoBehaviour
         {
             if (Vector3.Distance(transform.position, player.transform.position) < detectionRange)
             {
-                Vector3 targetDirection = player.transform.position - transform.position;
+                Vector3 targetDirection = player.transform.position - transform.position - (Vector3.up * eyeLevel);
                 float angleToPlayer = Vector3.Angle(targetDirection, transform.forward);
                 if (angleToPlayer >= -fieldOfView && angleToPlayer <= fieldOfView)
                 {
-                    Ray ray = new Ray(transform.position, targetDirection);
-                    Debug.DrawRay(ray.origin, ray.direction * detectionRange);
+                    Ray ray = new Ray(transform.position + (Vector3.up * eyeLevel), targetDirection);
+                    RaycastHit hitInfo = new RaycastHit();
+                    if (Physics.Raycast(ray, out hitInfo, detectionRange))
+                    {
+                        if (hitInfo.transform.gameObject == player)
+                        {
+                            Debug.DrawRay(ray.origin, ray.direction * detectionRange, Color.red);
+                            return true;
+                        }
+                    }
                 }
             }
         }
-        return true;
+        return false;
     }
 }

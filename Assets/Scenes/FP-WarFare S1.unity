@@ -1240,6 +1240,7 @@ MonoBehaviour:
   enemyPath: {fileID: 628312419}
   detectionRange: 20
   fieldOfView: 85
+  eyeLevel: 0.3
 --- !u!1 &692489241
 GameObject:
   m_ObjectHideFlags: 0
