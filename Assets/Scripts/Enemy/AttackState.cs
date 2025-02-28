@@ -6,6 +6,7 @@ public class AttackState : EnemyBaseState
 {
     private float moveTimer;
     private float attackStateTimer;
+    private float shootCooldown;
 
     public override void Enter()  
     {
@@ -19,6 +20,14 @@ public class AttackState : EnemyBaseState
         {
             attackStateTimer = 0;
             moveTimer += Time.deltaTime; 
+            shootCooldown += Time.deltaTime; 
+            enemy.transform.LookAt(enemy.Player.transform);
+            // cooldown betwen shots fired
+            if (shootCooldown > enemy.fireRate)
+            {
+                Shoot();
+            }
+            // Enemy moves at random time
             if (moveTimer > Random.Range(3, 7))
             {
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 5));
@@ -33,6 +42,12 @@ public class AttackState : EnemyBaseState
                 stateController.ChangeState(new PatrolState()); // change to patrol state
             }
         }
+    }
+
+    public void Shoot()
+    {
+        Debug.Log("Shoot");
+        shootCooldown = 0;
     }
 
     public override void Exit()
