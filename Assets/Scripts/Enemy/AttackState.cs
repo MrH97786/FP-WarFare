@@ -5,20 +5,20 @@ using UnityEngine;
 public class AttackState : EnemyBaseState
 {
     private float moveTimer;
-    private float attackStateTimer;
+    private float playerLostTimer;
     private float shootCooldown;
 
     public override void Enter()  
     {
         moveTimer = 0;
-        attackStateTimer = 0;
+        playerLostTimer = 0;
     }
 
     public override void Perform()  
     {
         if (enemy.DetectPlayer())
         {
-            attackStateTimer = 0;
+            playerLostTimer = 0;
             moveTimer += Time.deltaTime; 
             shootCooldown += Time.deltaTime; 
             enemy.transform.LookAt(enemy.Player.transform);
@@ -33,13 +33,14 @@ public class AttackState : EnemyBaseState
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 5));
                 moveTimer = 0;
             }
+            enemy.LastKnownPosition = enemy.Player.transform.position;
         }
         else
         {
-            attackStateTimer += Time.deltaTime; 
-            if (attackStateTimer > 8)
+            playerLostTimer += Time.deltaTime; 
+            if (playerLostTimer > 8)
             {
-                stateController.ChangeState(new PatrolState()); // change to patrol state
+                stateController.ChangeState(new SearchState()); // change to patrol state
             }
         }
     }

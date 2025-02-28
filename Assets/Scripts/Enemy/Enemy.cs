@@ -8,9 +8,11 @@ public class Enemy : MonoBehaviour
     private StateController stateController;
     private NavMeshAgent agent;
     private GameObject player;
+    private Vector3 lastKnownPosition;
 
     public NavMeshAgent Agent {get => agent;}
     public GameObject Player {get => player;}
+    public Vector3 LastKnownPosition {get => lastKnownPosition; set => lastKnownPosition = value;}
 
     public EnemyPath enemyPath;
 
