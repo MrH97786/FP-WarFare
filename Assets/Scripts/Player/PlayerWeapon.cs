@@ -65,6 +65,11 @@ public class PlayerWeapon : MonoBehaviour
 
     void Update()
     {
+        if (bulletsLeft == 0 && isShooting)
+        {
+            SoundManager.Instance.emptyMagazineSound.Play(); //Play empty magazine sound when no bullets and player tries clicking mouse
+        }
+
         // Read the Fire action state
         bool firePressed = fireAction.ReadValue<float>() > 0; // InputSystem uses float values (0 or 1) for actions
 
@@ -145,6 +150,8 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Reload()
     {
+        SoundManager.Instance.reloadingSound.Play(); // Play reloading sound when reloading the gun
+
         isReloading = true;
         Invoke("ReloadCompleted", reloadTime);
     }
