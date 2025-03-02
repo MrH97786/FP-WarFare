@@ -151,6 +151,7 @@ public class PlayerWeapon : MonoBehaviour
     private void Reload()
     {
         SoundManager.Instance.reloadingSound.Play(); // Play reloading sound when reloading the gun
+        animator.SetTrigger("RELOAD");
 
         isReloading = true;
         Invoke("ReloadCompleted", reloadTime);
