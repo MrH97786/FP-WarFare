@@ -35,7 +35,13 @@ public class PlayerWeapon : MonoBehaviour
     public int bulletsLeft; // Made this public for debugging purposes (can make private later, though unneccesary)
     public bool isReloading;
 
-    
+    public enum WeaponModel
+    {
+        Pistol_D,
+        M4A1_AssaultRifle
+    }
+
+    public WeaponModel thisWeaponModel;
 
     public enum ShootingMode
     {
@@ -106,7 +112,7 @@ public class PlayerWeapon : MonoBehaviour
         // Effects, animation, and sounds
         muzzleEffect.GetComponent<ParticleSystem>().Play(); // Muzzle effect
         animator.SetTrigger("RECOIL"); // Recoil animation
-        SoundManager.Instance.shootingSoundPistol_D.Play(); // Bullet shot sound
+        SoundManager.Instance.PlayShootingSound(thisWeaponModel); // Bullet shot sound
 
         bulletsLeft--;
 
@@ -150,8 +156,8 @@ public class PlayerWeapon : MonoBehaviour
 
     private void Reload()
     {
-        SoundManager.Instance.reloadingSound.Play(); // Play reloading sound when reloading the gun
-        animator.SetTrigger("RELOAD");
+        SoundManager.Instance.PlayReloadSound(thisWeaponModel); // Play reloading sound when reloading the gun
+        animator.SetTrigger("RELOAD"); // Reload animation
 
         isReloading = true;
         Invoke("ReloadCompleted", reloadTime);

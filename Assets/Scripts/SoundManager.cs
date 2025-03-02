@@ -1,13 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static PlayerWeapon;
 
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance { get; set;}
 
-    public AudioSource shootingSoundPistol_D;
+    public AudioSource ShootingChannel;
+
+    public AudioClip Pistol_D_Shot;
+    public AudioClip M4A1_AssaultRifle_Shot;
+
     public AudioSource reloadingSound;
+    public AudioSource reloadingSound_M4A1_AssaultRifle;
+    
     public AudioSource emptyMagazineSound;
 
 
@@ -20,6 +27,32 @@ public class SoundManager : MonoBehaviour
         else 
         {
             Instance = this;
+        }
+    }
+
+    public void PlayShootingSound(WeaponModel weapon)
+    {
+        switch(weapon)
+        {
+            case WeaponModel.Pistol_D:
+                ShootingChannel.PlayOneShot(Pistol_D_Shot);
+                break;
+            case WeaponModel.M4A1_AssaultRifle:
+                ShootingChannel.PlayOneShot(M4A1_AssaultRifle_Shot);
+                break; 
+        }
+    }
+
+    public void PlayReloadSound(WeaponModel weapon)
+    {
+        switch(weapon)
+        {
+            case WeaponModel.Pistol_D:
+                reloadingSound.Play();
+                break;
+            case WeaponModel.M4A1_AssaultRifle:
+                reloadingSound_M4A1_AssaultRifle.Play();
+                break;
         }
     }
 }
