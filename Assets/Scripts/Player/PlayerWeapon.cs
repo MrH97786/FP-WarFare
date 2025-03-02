@@ -73,6 +73,7 @@ public class PlayerWeapon : MonoBehaviour
     {
         muzzleEffect.GetComponent<ParticleSystem>().Play(); // Muzzle effect
         animator.SetTrigger("RECOIL"); // Recoil animation being set when weapon gets fired
+        SoundManager.Instance.shootingSoundPistol_D.Play();
 
         readyToShoot = false;
 
