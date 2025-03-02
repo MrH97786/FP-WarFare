@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerWeapon : MonoBehaviour
 {
@@ -20,11 +21,21 @@ public class PlayerWeapon : MonoBehaviour
     public Transform bulletSpawn;
     public float bulletVelocity = 40;
     public float bulletLifeTime = 3f;
+    
     private PlayerInput playerInput;
     private InputAction fireAction;
+    private InputAction reloadAction;
 
     public GameObject muzzleEffect;
     private Animator animator;
+
+    // Weapon Loading
+    public float reloadTime;
+    public int magazineSize;
+    public int bulletsLeft; // Made this public for debugging purposes (can make private later, though unneccesary)
+    public bool isReloading;
+
+    
 
     public enum ShootingMode
     {
@@ -37,43 +48,62 @@ public class PlayerWeapon : MonoBehaviour
 
     void Awake()
     {
-        // Initialize the PlayerInput and get the Fire action from the OnFoot input map
+        // Initialize PlayerInput and actions
         playerInput = new PlayerInput();
         fireAction = playerInput.OnFoot.Fire;
+        reloadAction = playerInput.OnFoot.Reload;
+
+        // Register reload event
+        reloadAction.performed += ctx => AttemptReload();
 
         readyToShoot = true;
         currentBurst = bulletsPerBurst;
 
         animator = GetComponent<Animator>();
+        bulletsLeft = magazineSize;
     }
 
-    // Update is called once per frame
     void Update()
     {
         // Read the Fire action state
-        bool firePressed = fireAction.ReadValue<float>() > 0;  // InputSystem uses float values (0 or 1) for actions
+        bool firePressed = fireAction.ReadValue<float>() > 0; // InputSystem uses float values (0 or 1) for actions
 
         if (currentShootingMode == ShootingMode.Auto)
         {
-            isShooting = firePressed;  // Holding down button
+            isShooting = firePressed; // Holding down button
         }
         else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
         {
             isShooting = fireAction.triggered; // Single press
         }
 
-        if (readyToShoot && isShooting)
+        // Auto-reload when magazine is empty
+        if (readyToShoot && !isShooting && !isReloading && bulletsLeft <= 0)
+        {
+            Reload();
+        }
+
+        // Handle shooting logic
+        if (readyToShoot && isShooting && bulletsLeft > 0)
         {
             currentBurst = bulletsPerBurst;
             FireWeapon();
+        }
+
+        if (AmmoManager.Instance.ammoDisplay != null)
+        {
+            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft/bulletsPerBurst}/{magazineSize/bulletsPerBurst}";
         }
     }
 
     private void FireWeapon()
     {
+        // Effects, animation, and sounds
         muzzleEffect.GetComponent<ParticleSystem>().Play(); // Muzzle effect
-        animator.SetTrigger("RECOIL"); // Recoil animation being set when weapon gets fired
-        SoundManager.Instance.shootingSoundPistol_D.Play();
+        animator.SetTrigger("RECOIL"); // Recoil animation
+        SoundManager.Instance.shootingSoundPistol_D.Play(); // Bullet shot sound
+
+        bulletsLeft--;
 
         readyToShoot = false;
 
@@ -84,10 +114,10 @@ public class PlayerWeapon : MonoBehaviour
 
         bullet.transform.forward = shootingDirection;
 
-        // Shoot the bullet and add force to the bullet
+        // Shoot the bullet and add force
         bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
 
-        // Destroy bullet after a couple seconds
+        // Destroy bullet after some time
         StartCoroutine(DestroyBullet(bullet, bulletLifeTime));
 
         // Quick check when done shooting
@@ -97,12 +127,32 @@ public class PlayerWeapon : MonoBehaviour
             allowReset = false;
         }
 
-        // Burst Mode
+        // Burst Mode handling
         if (currentShootingMode == ShootingMode.Burst && currentBurst > 1)
         {
             currentBurst--;
             Invoke("FireWeapon", shootingDelay);
         }
+    }
+
+    private void AttemptReload()
+    {
+        if (bulletsLeft < magazineSize && !isReloading)
+        {
+            Reload();
+        }
+    }
+
+    private void Reload()
+    {
+        isReloading = true;
+        Invoke("ReloadCompleted", reloadTime);
+    }
+
+    private void ReloadCompleted()
+    {
+        bulletsLeft = magazineSize;
+        isReloading = false;
     }
 
     private void ResetShot()
@@ -121,7 +171,7 @@ public class PlayerWeapon : MonoBehaviour
         {
             targetPoint = hit.point;
         }
-        else 
+        else
         {
             targetPoint = ray.GetPoint(100);
         }
@@ -143,10 +193,12 @@ public class PlayerWeapon : MonoBehaviour
     private void OnEnable()
     {
         fireAction.Enable();
+        reloadAction.Enable();
     }
 
     private void OnDisable()
     {
         fireAction.Disable();
+        reloadAction.Disable();
     }
 }
