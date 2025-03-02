@@ -23,6 +23,9 @@ public class PlayerWeapon : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction fireAction;
 
+    public GameObject muzzleEffect;
+    private Animator animator;
+
     public enum ShootingMode
     {
         Single,
@@ -40,6 +43,8 @@ public class PlayerWeapon : MonoBehaviour
 
         readyToShoot = true;
         currentBurst = bulletsPerBurst;
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -66,6 +71,9 @@ public class PlayerWeapon : MonoBehaviour
 
     private void FireWeapon()
     {
+        muzzleEffect.GetComponent<ParticleSystem>().Play(); // Muzzle effect
+        animator.SetTrigger("RECOIL"); // Recoil animation being set when weapon gets fired
+
         readyToShoot = false;
 
         Vector3 shootingDirection = CalculateDirectionAndSpread().normalized;
