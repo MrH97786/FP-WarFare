@@ -4853,6 +4853,7 @@ GameObject:
   - component: {fileID: 7474989639238958050}
   - component: {fileID: 2591074661253522282}
   - component: {fileID: 1696484932710479638}
+  - component: {fileID: 480077917}
   m_Layer: 0
   m_Name: Pistol_D
   m_TagString: Untagged
@@ -4893,6 +4894,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 976b373b41328914fb41b8b445072941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isWeaponActive: 0
   isShooting: 0
   readyToShoot: 0
   shootingDelay: 0.3
@@ -4908,7 +4910,7 @@ MonoBehaviour:
   bulletsLeft: 0
   isReloading: 0
   spawnPosition: {x: 0.2210004, y: -0.2, z: 0.585}
-  SpawnRotation: {x: 0, y: 0, z: 0}
+  spawnRotation: {x: 0, y: 0, z: 0}
   thisWeaponModel: 0
   currentShootingMode: 0
 --- !u!95 &2591074661253522282
@@ -4943,6 +4945,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &480077917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2591074661253522281}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineWidth: 2
+  precomputeOutline: 0
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &3157272006611074830
 GameObject:
   m_ObjectHideFlags: 0
