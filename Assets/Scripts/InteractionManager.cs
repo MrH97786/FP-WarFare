@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.InputSystem; 
+using UnityEngine.InputSystem;
 
 public class InteractionManager : MonoBehaviour
 {
     public static InteractionManager Instance { get; set; }
 
     private PlayerInput playerInput;
-    private InputAction pickupAction; 
-    
+    private InputAction pickupAction;
+
     public PlayerWeapon hoveredOverWeapon = null;
 
     private void Awake()
@@ -23,13 +23,13 @@ public class InteractionManager : MonoBehaviour
 
         // Initialize PlayerInput
         playerInput = new PlayerInput();
-        pickupAction = playerInput.OnFoot.Pickup; 
+        pickupAction = playerInput.OnFoot.Pickup;
     }
 
     private void OnEnable()
     {
         pickupAction.Enable();
-        pickupAction.performed += OnPickup; 
+        pickupAction.performed += OnPickup;
     }
 
     private void OnDisable()
@@ -40,35 +40,36 @@ public class InteractionManager : MonoBehaviour
 
     private float interactionRange = 2f; // range for raycast
 
-private void Update()
-{
-    Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-    RaycastHit hit;
-
-    if (Physics.Raycast(ray, out hit, interactionRange)) // Limit range
+    private void Update()
     {
-        GameObject objectHitByRaycast = hit.transform.gameObject;
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        RaycastHit hit;
 
-        if (objectHitByRaycast.TryGetComponent(out PlayerWeapon weapon))
+        if (Physics.Raycast(ray, out hit, interactionRange)) // Limit range
         {
-            // Highlight weapon when player is looking at it
-            if (hoveredOverWeapon != weapon)
+            GameObject objectHitByRaycast = hit.transform.gameObject;
+
+            if (objectHitByRaycast.GetComponent<PlayerWeapon>() && objectHitByRaycast.GetComponent<PlayerWeapon>().isWeaponActive == false)
             {
-                ResetWeaponHighlight();
-                hoveredOverWeapon = weapon;
+                hoveredOverWeapon = objectHitByRaycast.GetComponent<PlayerWeapon>();
                 hoveredOverWeapon.GetComponent<Outline>().enabled = true;
+
+                if (pickupAction.triggered) 
+                {
+                    WeaponManager.Instance.WeaponPickup(objectHitByRaycast.gameObject);
+                }
+            }
+            else
+            {
+                if (hoveredOverWeapon)
+                {
+                    hoveredOverWeapon.GetComponent<Outline>().enabled = false;
+                }
             }
         }
-        else
-        {
-            ResetWeaponHighlight();
-        }
     }
-    else
-    {
-        ResetWeaponHighlight();
-    }
-}
+
+
 
 
     private void OnPickup(InputAction.CallbackContext context)

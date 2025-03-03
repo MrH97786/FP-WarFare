@@ -28,7 +28,7 @@ public class PlayerWeapon : MonoBehaviour
     private InputAction reloadAction;
 
     public GameObject muzzleEffect;
-    private Animator animator;
+    internal Animator animator;
 
     // Weapon Loading
     public float reloadTime;
@@ -77,6 +77,8 @@ public class PlayerWeapon : MonoBehaviour
     {
         if (isWeaponActive)
         {
+            GetComponent<Outline>().enabled = false;
+            
             if (bulletsLeft == 0 && isShooting)
             {
                 SoundManager.Instance.emptyMagazineSound.Play(); //Play empty magazine sound when no bullets and player tries clicking mouse
