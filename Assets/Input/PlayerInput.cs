@@ -81,6 +81,30 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Pickup"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef4426a8-49c7-414b-b810-3b3eca4369b9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchSlot1"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7a55e44-3921-4faf-b85c-b76c6ffc2d3b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchSlot2"",
+                    ""type"": ""Button"",
+                    ""id"": ""459ac0fa-9ee1-4bd5-bb6d-125405f2f029"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -213,6 +237,39 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5d9d1986-b387-4c00-8952-9bd95e103e5f"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pickup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""64f8d11a-07e1-4d44-a25e-38bd9256dff9"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchSlot1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4bbd865-7da5-44b3-a5ac-aa2eea37af59"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchSlot2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -737,6 +794,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         m_OnFoot_Interact = m_OnFoot.FindAction("Interact", throwIfNotFound: true);
         m_OnFoot_Fire = m_OnFoot.FindAction("Fire", throwIfNotFound: true);
         m_OnFoot_Reload = m_OnFoot.FindAction("Reload", throwIfNotFound: true);
+        m_OnFoot_Pickup = m_OnFoot.FindAction("Pickup", throwIfNotFound: true);
+        m_OnFoot_SwitchSlot1 = m_OnFoot.FindAction("SwitchSlot1", throwIfNotFound: true);
+        m_OnFoot_SwitchSlot2 = m_OnFoot.FindAction("SwitchSlot2", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -806,6 +866,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
     private readonly InputAction m_OnFoot_Interact;
     private readonly InputAction m_OnFoot_Fire;
     private readonly InputAction m_OnFoot_Reload;
+    private readonly InputAction m_OnFoot_Pickup;
+    private readonly InputAction m_OnFoot_SwitchSlot1;
+    private readonly InputAction m_OnFoot_SwitchSlot2;
     public struct OnFootActions
     {
         private @PlayerInput m_Wrapper;
@@ -818,6 +881,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         public InputAction @Interact => m_Wrapper.m_OnFoot_Interact;
         public InputAction @Fire => m_Wrapper.m_OnFoot_Fire;
         public InputAction @Reload => m_Wrapper.m_OnFoot_Reload;
+        public InputAction @Pickup => m_Wrapper.m_OnFoot_Pickup;
+        public InputAction @SwitchSlot1 => m_Wrapper.m_OnFoot_SwitchSlot1;
+        public InputAction @SwitchSlot2 => m_Wrapper.m_OnFoot_SwitchSlot2;
         public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -851,6 +917,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnReload;
+                @Pickup.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnPickup;
+                @Pickup.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnPickup;
+                @Pickup.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnPickup;
+                @SwitchSlot1.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSwitchSlot1;
+                @SwitchSlot1.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSwitchSlot1;
+                @SwitchSlot1.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSwitchSlot1;
+                @SwitchSlot2.started -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSwitchSlot2;
+                @SwitchSlot2.performed -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSwitchSlot2;
+                @SwitchSlot2.canceled -= m_Wrapper.m_OnFootActionsCallbackInterface.OnSwitchSlot2;
             }
             m_Wrapper.m_OnFootActionsCallbackInterface = instance;
             if (instance != null)
@@ -879,6 +954,15 @@ public class @PlayerInput : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @Pickup.started += instance.OnPickup;
+                @Pickup.performed += instance.OnPickup;
+                @Pickup.canceled += instance.OnPickup;
+                @SwitchSlot1.started += instance.OnSwitchSlot1;
+                @SwitchSlot1.performed += instance.OnSwitchSlot1;
+                @SwitchSlot1.canceled += instance.OnSwitchSlot1;
+                @SwitchSlot2.started += instance.OnSwitchSlot2;
+                @SwitchSlot2.performed += instance.OnSwitchSlot2;
+                @SwitchSlot2.canceled += instance.OnSwitchSlot2;
             }
         }
     }
@@ -998,6 +1082,9 @@ public class @PlayerInput : IInputActionCollection, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnPickup(InputAction.CallbackContext context);
+        void OnSwitchSlot1(InputAction.CallbackContext context);
+        void OnSwitchSlot2(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

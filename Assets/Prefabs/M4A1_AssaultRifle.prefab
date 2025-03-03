@@ -4884,6 +4884,7 @@ GameObject:
   - component: {fileID: 9020680011404825883}
   - component: {fileID: 9020680011405314309}
   - component: {fileID: 9020680011405314308}
+  - component: {fileID: 1110717327756604228}
   m_Layer: 0
   m_Name: M4A1_AssaultRifle
   m_TagString: Untagged
@@ -4935,6 +4936,8 @@ MonoBehaviour:
   magazineSize: 90
   bulletsLeft: 0
   isReloading: 0
+  spawnPosition: {x: 0, y: 0, z: 0}
+  SpawnRotation: {x: 0, y: 0, z: 0}
   thisWeaponModel: 1
   currentShootingMode: 2
 --- !u!95 &9020680011405314308
@@ -4956,6 +4959,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &1110717327756604228
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020680011405314363}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9020680011405314365
 GameObject:
   m_ObjectHideFlags: 0

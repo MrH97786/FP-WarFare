@@ -5,6 +5,7 @@ using TMPro;
 
 public class PlayerWeapon : MonoBehaviour
 {
+    public bool isWeaponActive;
     public bool isShooting;
     public bool readyToShoot;
     bool allowReset = true;
@@ -21,7 +22,7 @@ public class PlayerWeapon : MonoBehaviour
     public Transform bulletSpawn;
     public float bulletVelocity = 40;
     public float bulletLifeTime = 3f;
-    
+
     private PlayerInput playerInput;
     private InputAction fireAction;
     private InputAction reloadAction;
@@ -34,6 +35,9 @@ public class PlayerWeapon : MonoBehaviour
     public int magazineSize;
     public int bulletsLeft; // Made this public for debugging purposes (can make private later, though unneccesary)
     public bool isReloading;
+
+    public Vector3 spawnPosition;
+    public Vector3 spawnRotation;
 
     public enum WeaponModel
     {
@@ -71,39 +75,43 @@ public class PlayerWeapon : MonoBehaviour
 
     void Update()
     {
-        if (bulletsLeft == 0 && isShooting)
+        if (isWeaponActive)
         {
-            SoundManager.Instance.emptyMagazineSound.Play(); //Play empty magazine sound when no bullets and player tries clicking mouse
-        }
+            if (bulletsLeft == 0 && isShooting)
+            {
+                SoundManager.Instance.emptyMagazineSound.Play(); //Play empty magazine sound when no bullets and player tries clicking mouse
+            }
 
-        // Read the Fire action state
-        bool firePressed = fireAction.ReadValue<float>() > 0; // InputSystem uses float values (0 or 1) for actions
+            // Read the Fire action state
+            bool firePressed = fireAction.ReadValue<float>() > 0; // InputSystem uses float values (0 or 1) for actions
 
-        if (currentShootingMode == ShootingMode.Auto)
-        {
-            isShooting = firePressed; // Holding down button
-        }
-        else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
-        {
-            isShooting = fireAction.triggered; // Single press
-        }
+            if (currentShootingMode == ShootingMode.Auto)
+            {
+                isShooting = firePressed; // Holding down button
+            }
+            else if (currentShootingMode == ShootingMode.Single || currentShootingMode == ShootingMode.Burst)
+            {
+                isShooting = fireAction.triggered; // Single press
+            }
 
-        // Auto-reload when magazine is empty
-        if (readyToShoot && !isShooting && !isReloading && bulletsLeft <= 0)
-        {
-            Reload();
-        }
+            // Auto-reload when magazine is empty
+            if (readyToShoot && !isShooting && !isReloading && bulletsLeft <= 0)
+            {
+                Reload();
+            }
 
-        // Handle shooting logic
-        if (readyToShoot && isShooting && bulletsLeft > 0)
-        {
-            currentBurst = bulletsPerBurst;
-            FireWeapon();
-        }
+            // Handle shooting logic
+            if (readyToShoot && isShooting && bulletsLeft > 0)
+            {
+                currentBurst = bulletsPerBurst;
+                FireWeapon();
+            }
 
-        if (AmmoManager.Instance.ammoDisplay != null)
-        {
-            AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft/bulletsPerBurst}/{magazineSize/bulletsPerBurst}";
+            // Handling ammo display logic
+            if (AmmoManager.Instance.ammoDisplay != null)
+            {
+                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft / bulletsPerBurst}/{magazineSize / bulletsPerBurst}";
+            }
         }
     }
 
