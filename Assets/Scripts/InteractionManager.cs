@@ -53,6 +53,8 @@ public class InteractionManager : MonoBehaviour
             {
                 hoveredOverWeapon = objectHitByRaycast.GetComponent<PlayerWeapon>();
                 hoveredOverWeapon.GetComponent<Outline>().enabled = true;
+                Debug.Log("Ray hit: " + hit.transform.name);
+
 
                 if (pickupAction.triggered) 
                 {
