@@ -15,6 +15,11 @@ public class Enemy : MonoBehaviour
     public Vector3 LastKnownPosition { get => lastKnownPosition; set => lastKnownPosition = value; }
 
     public EnemyPath enemyPath;
+    [SerializeField] private string currentState;
+
+    [SerializeField] private int enemyHealth = 100;
+    private Animator animator;
+    public bool isDead = false;
 
     [Header("Sight Values")]
     public float detectionRange = 20f;
@@ -26,14 +31,10 @@ public class Enemy : MonoBehaviour
     [Range(0.1f, 10f)]
     public float fireRate;
 
-    [SerializeField]
-    private string currentState;
-
-    public bool isDead = false;
-
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         stateController = GetComponent<StateController>();
         agent = GetComponent<NavMeshAgent>();
         stateController.Initialise();
@@ -52,24 +53,40 @@ public class Enemy : MonoBehaviour
     }
 
     public bool DetectPlayer()
-{
-    if (player != null)
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < detectionRange)
+        if (player != null)
         {
-            Ray ray = new Ray(transform.position + (Vector3.up * eyeLevel), player.transform.position - transform.position);
-            RaycastHit hitInfo;
-            if (Physics.Raycast(ray, out hitInfo, detectionRange))
+            if (Vector3.Distance(transform.position, player.transform.position) < detectionRange)
             {
-                if (hitInfo.transform.gameObject == player)
+                Ray ray = new Ray(transform.position + (Vector3.up * eyeLevel), player.transform.position - transform.position);
+                RaycastHit hitInfo;
+                if (Physics.Raycast(ray, out hitInfo, detectionRange))
                 {
-                    Debug.DrawRay(ray.origin, ray.direction * detectionRange, Color.red);
-                    return true;
+                    if (hitInfo.transform.gameObject == player)
+                    {
+                        Debug.DrawRay(ray.origin, ray.direction * detectionRange, Color.red);
+                        return true;
+                    }
                 }
             }
         }
+        return false;
     }
-    return false;
-}
+
+    public void TakeDamage (int damageAmount)
+    {
+        Debug.Log("Enemy took damage: " + damageAmount);
+        enemyHealth -= damageAmount;
+
+        if (enemyHealth <= 0)
+        {
+            animator.SetTrigger("DIE");
+            Destroy(gameObject);
+        }
+        else
+        {
+            animator.SetTrigger("DAMAGE");
+        }
+    }
 
 }

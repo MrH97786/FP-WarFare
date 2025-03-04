@@ -26,6 +26,12 @@ public class HUDManager : MonoBehaviour
 
     public Sprite emptySlot;
 
+    // Store sprites to prevent redundant instantiation
+    private Sprite pistolAmmoSprite;
+    private Sprite rifleAmmoSprite;
+    private Sprite pistolWeaponSprite;
+    private Sprite rifleWeaponSprite;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -36,6 +42,12 @@ public class HUDManager : MonoBehaviour
         {
             Instance = this;
         }
+
+        // Pre-load sprites
+        pistolAmmoSprite = Resources.Load<Sprite>("Pistol_Ammo");
+        rifleAmmoSprite = Resources.Load<Sprite>("Rifle_Ammo");
+        pistolWeaponSprite = Resources.Load<Sprite>("Pistol_D_Weapon");
+        rifleWeaponSprite = Resources.Load<Sprite>("M4A1_AssaultRifle_Weapon");
     }
 
     private void Update()
@@ -45,28 +57,25 @@ public class HUDManager : MonoBehaviour
 
         if (activeWeapon)
         {
+            // Update ammo UI
             magazineAmmoUI.text = $"{activeWeapon.bulletsLeft / activeWeapon.bulletsPerBurst}";
             totalAmmoUI.text = $"{WeaponManager.Instance.CheckAmmoLeftFor(activeWeapon.thisWeaponModel)}";
+            ammoTypeUI.sprite = GetAmmoSprite(activeWeapon.thisWeaponModel);
 
-            PlayerWeapon.WeaponModel model = activeWeapon.thisWeaponModel;
-            ammoTypeUI.sprite = GetAmmoSprite(model);
-
-            activeWeaponUI.sprite = GetWeaponSprite(model);
+            // Update weapon UI
+            activeWeaponUI.sprite = GetWeaponSprite(activeWeapon.thisWeaponModel);
 
             if (unActiveWeapon)
             {
-                unActiveWeaponUI.sprite = GetWeaponSprite(unActiveWeapon.thisWeaponModel); 
-                
+                unActiveWeaponUI.sprite = GetWeaponSprite(unActiveWeapon.thisWeaponModel);
             }
-
         }
         else
         {
+            // Reset UI when no active weapon
             magazineAmmoUI.text = "";
             totalAmmoUI.text = "";
-
             ammoTypeUI.sprite = emptySlot;
-
             activeWeaponUI.sprite = emptySlot;
             unActiveWeaponUI.sprite = emptySlot;
         }
@@ -77,9 +86,9 @@ public class HUDManager : MonoBehaviour
         switch (model)
         {
             case PlayerWeapon.WeaponModel.Pistol_D:
-                return Instantiate(Resources.Load<GameObject>("Pistol_Ammo")).GetComponent<SpriteRenderer>().sprite;
+                return pistolAmmoSprite; // Use pre-loaded sprite
             case PlayerWeapon.WeaponModel.M4A1_AssaultRifle:
-                return Instantiate(Resources.Load<GameObject>("Rifle_Ammo")).GetComponent<SpriteRenderer>().sprite;
+                return rifleAmmoSprite; // Use pre-loaded sprite
             default:
                 return null;
         }
@@ -90,9 +99,9 @@ public class HUDManager : MonoBehaviour
         switch (model)
         {
             case PlayerWeapon.WeaponModel.Pistol_D:
-                return Instantiate(Resources.Load<GameObject>("Pistol_D_Weapon")).GetComponent<SpriteRenderer>().sprite;
+                return pistolWeaponSprite; // Use pre-loaded sprite
             case PlayerWeapon.WeaponModel.M4A1_AssaultRifle:
-                return Instantiate(Resources.Load<GameObject>("M4A1_AssaultRifle_Weapon")).GetComponent<SpriteRenderer>().sprite;
+                return rifleWeaponSprite; // Use pre-loaded sprite
             default:
                 return null;
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class EnemySpawnController : MonoBehaviour
 {
@@ -18,6 +19,10 @@ public class EnemySpawnController : MonoBehaviour
     public List<Enemy> currentEnemiesAlive;
 
     public GameObject Enemy; // Must be assigned in the Inspector
+
+    public TextMeshProUGUI titleWaveOver1; // first line of the title
+    public TextMeshProUGUI titleWaveOver2; // second line of the title
+    public TextMeshProUGUI coolDownCounterUI; // counter in the title
 
     private void Start()
     {
@@ -116,17 +121,31 @@ public class EnemySpawnController : MonoBehaviour
         {
             coolDownCounter = waveCooldown; // Reset the counter
         }
+
+        coolDownCounterUI.text = coolDownCounter.ToString("F1");
+
     }
 
     private IEnumerator WaveCooldown()
     {
         inCooldown = true;
-        yield return new WaitForSeconds(waveCooldown);
-        inCooldown = false;
 
+        // Show the "Wave Over" UI text
+        titleWaveOver1.gameObject.SetActive(true);
+        titleWaveOver2.gameObject.SetActive(true);
+
+        // Wait for the cooldown duration
+        yield return new WaitForSeconds(waveCooldown);
+
+        // Hide the title after the cooldown is over
+        titleWaveOver1.gameObject.SetActive(false);
+        titleWaveOver2.gameObject.SetActive(false);
+
+        // Reset wave state and prepare for the next wave
         currentEnemiesPerWave *= 2;
         StartNextWave();
     }
+
 
 
 }

@@ -39,7 +39,7 @@ public class InteractionManager : MonoBehaviour
         pickupAction.performed -= OnPickup;
     }
 
-    private float interactionRange = 2f; // range for raycast
+    //private float interactionRange = 2f; // range for raycast
 
     private void Update()
     {
@@ -47,13 +47,13 @@ public class InteractionManager : MonoBehaviour
         {
             ResetWeaponHighlight();
             hoveredOverWeapon = null;
-            return; // 🔹 Immediately stop execution if weapon is ignored
+            return; 
         }
 
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, interactionRange)) // Limit range
+        if (Physics.Raycast(ray, out hit)) 
         {
             GameObject objectHitByRaycast = hit.transform.gameObject;
 

@@ -6,6 +6,8 @@ using TMPro;
 public class PlayerWeapon : MonoBehaviour
 {
     public bool isWeaponActive;
+    public int weaponDamage;
+
     public bool isShooting;
     public bool readyToShoot;
     bool allowReset = true;
@@ -130,6 +132,9 @@ public class PlayerWeapon : MonoBehaviour
         // Create new bullet
         GameObject bullet = GameObject.Instantiate(Resources.Load("Prefabs/Bullet") as GameObject, bulletSpawn.position, Quaternion.identity);
 
+        PlayerBullet bulletScript = bullet.GetComponent<PlayerBullet>();
+        bulletScript.bulletDamage = weaponDamage;
+        
         bullet.transform.forward = shootingDirection;
 
         // Shoot the bullet and add force
