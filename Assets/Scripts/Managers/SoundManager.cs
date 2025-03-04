@@ -17,6 +17,9 @@ public class SoundManager : MonoBehaviour
     
     public AudioSource emptyMagazineSound;
 
+    public AudioSource playerChannel;
+    public AudioClip playerHurt;
+    public AudioClip playerDie;
 
     private void Awake()
     {

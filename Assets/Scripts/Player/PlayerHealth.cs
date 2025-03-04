@@ -9,8 +9,7 @@ public class PlayerHealth : MonoBehaviour
     private float health;
     private float lerpTimer;
     public GameObject gameOverUI;
-    public bool isDead;
-
+    public bool isDead;  // Add a flag to check if the player is dead
 
     [Header("Health Bar")]
     public float maxHealth = 100;
@@ -37,10 +36,10 @@ public class PlayerHealth : MonoBehaviour
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthUI();
 
-        if (health <= 0)
+        if (health <= 0 && !isDead)  // Only call PlayerDead if the player is not already dead
         {
             PlayerDead();  // Call the PlayerDead method when health is 0 or lower
-            isDead = true;
+            isDead = true;  // Set the isDead flag to true
         }
 
         if (damageOverlay.color.a > 0)
@@ -59,7 +58,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void UpdateHealthUI()
     {
-        //Debug.Log(health); //consol log for health 
+        //Debug.Log(health); //console log for health 
         float fillFrontH = frontHealthBar.fillAmount;
         float fillBackH = backHealthBar.fillAmount;
         float healthFraction = health / maxHealth;
@@ -91,6 +90,9 @@ public class PlayerHealth : MonoBehaviour
             lerpTimer = 0f;
             durationTimer = 0;
             damageOverlay.color = new Color(damageOverlay.color.r, damageOverlay.color.g, damageOverlay.color.b, 1);
+
+            // Play the hurt sound when taking damage
+            SoundManager.Instance.playerChannel.PlayOneShot(SoundManager.Instance.playerHurt);
         }
     }
 
@@ -102,13 +104,16 @@ public class PlayerHealth : MonoBehaviour
 
     private void PlayerDead()
     {
+        // Play the death sound only once
+        SoundManager.Instance.playerChannel.PlayOneShot(SoundManager.Instance.playerDie);
+
         GetComponent<PlayerMovement>().SetDead(true);
 
         GetComponent<PlayerMovement>().enabled = false;
         GetComponent<PlayerInteract>().enabled = false;
         GetComponent<CharacterController>().enabled = false;
 
-        //Debug.Log("Player has died!");
+        // Debug.Log("Player has died!");
 
         // Dying animation
         GetComponentInChildren<Animator>().enabled = true;
@@ -122,5 +127,4 @@ public class PlayerHealth : MonoBehaviour
         yield return new WaitForSeconds(1f);
         gameOverUI.gameObject.SetActive(true);
     }
-
 }
