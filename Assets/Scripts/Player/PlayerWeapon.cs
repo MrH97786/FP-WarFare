@@ -110,10 +110,7 @@ public class PlayerWeapon : MonoBehaviour
             }
 
             // Handling ammo display logic
-            if (AmmoManager.Instance.ammoDisplay != null)
-            {
-                AmmoManager.Instance.ammoDisplay.text = $"{bulletsLeft / bulletsPerBurst}/{magazineSize / bulletsPerBurst}";
-            }
+            
         }
     }
 

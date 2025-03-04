@@ -37,6 +37,7 @@ public class WeaponManager : MonoBehaviour
         activeWeaponSlot = weaponSlots[0];
     }
 
+
     private void Update()
     {
         foreach (GameObject weaponSlot in weaponSlots)
@@ -66,6 +67,7 @@ public class WeaponManager : MonoBehaviour
     {
         AddWeaponIntoActiveSlot(pickedUpWeapon);
     }
+
 
     private void AddWeaponIntoActiveSlot(GameObject pickedUpWeapon)
     {
