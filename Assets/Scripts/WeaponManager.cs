@@ -1,11 +1,11 @@
-using System.Collections;               
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class WeaponManager : MonoBehaviour
 {
-    public static WeaponManager Instance { get; set;}
+    public static WeaponManager Instance { get; set; }
 
     public List<GameObject> weaponSlots;
 
@@ -17,11 +17,11 @@ public class WeaponManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
-        else 
+        else
         {
             Instance = this;
         }
@@ -75,28 +75,34 @@ public class WeaponManager : MonoBehaviour
 
         PlayerWeapon weapon = pickedUpWeapon.GetComponent<PlayerWeapon>();
 
-        pickedUpWeapon.transform.localPosition = new Vector3(weapon.spawnPosition.x, weapon.spawnPosition.y, weapon.spawnPosition.z);
-        pickedUpWeapon.transform.localRotation = Quaternion.Euler(weapon.spawnRotation.x, weapon.spawnRotation.y, weapon.spawnRotation.z);
+        pickedUpWeapon.transform.localPosition = weapon.spawnPosition;
+        pickedUpWeapon.transform.localRotation = Quaternion.Euler(weapon.spawnRotation);
 
         weapon.isWeaponActive = true;
         weapon.animator.enabled = true;
+
+        SetLayerRecursively(pickedUpWeapon, "Ignore Raycast"); // Switch layer to "ignore raycast" when picked up
     }
+
 
     private void DropCurrentWeapon(GameObject pickedUpWeapon)
     {
         if (activeWeaponSlot.transform.childCount > 0)
         {
             var weaponToDrop = activeWeaponSlot.transform.GetChild(0).gameObject;
+            PlayerWeapon weaponScript = weaponToDrop.GetComponent<PlayerWeapon>();
 
-            weaponToDrop.GetComponent<PlayerWeapon>().isWeaponActive = false;
-            weaponToDrop.GetComponent<PlayerWeapon>().animator.enabled = false;
-
+            weaponScript.isWeaponActive = false;
+            weaponScript.animator.enabled = false;
 
             weaponToDrop.transform.SetParent(pickedUpWeapon.transform.parent);
             weaponToDrop.transform.localPosition = pickedUpWeapon.transform.localPosition;
             weaponToDrop.transform.localRotation = pickedUpWeapon.transform.localRotation;
+
+            SetLayerRecursively(weaponToDrop, "Default"); // Switch layer back to "default" when dropped down
         }
     }
+
 
     public void SwitchActiveSlot(int slotNumber)
     {
@@ -127,4 +133,18 @@ public class WeaponManager : MonoBehaviour
         switchSlot1Action.Disable();
         switchSlot2Action.Disable();
     }
+
+    // Function to set a gameObject and its children to a specific layer
+    private void SetLayerRecursively(GameObject obj, string layerName)
+    {
+        int layer = LayerMask.NameToLayer(layerName);
+        obj.layer = layer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, layerName);
+        }
+        Physics.SyncTransforms();
+    }
+
 }

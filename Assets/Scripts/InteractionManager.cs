@@ -42,6 +42,13 @@ public class InteractionManager : MonoBehaviour
 
     private void Update()
     {
+        if (hoveredOverWeapon != null && hoveredOverWeapon.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
+        {
+            ResetWeaponHighlight();
+            hoveredOverWeapon = null;
+            return; // 🔹 Immediately stop execution if weapon is ignored
+        }
+
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
@@ -56,7 +63,7 @@ public class InteractionManager : MonoBehaviour
                 Debug.Log("Ray hit: " + hit.transform.name);
 
 
-                if (pickupAction.triggered) 
+                if (pickupAction.triggered)
                 {
                     WeaponManager.Instance.WeaponPickup(objectHitByRaycast.gameObject);
                 }
