@@ -8,6 +8,10 @@ public class PlayerHealth : MonoBehaviour
 {
     private float health;
     private float lerpTimer;
+    public GameObject gameOverUI;
+    public bool isDead;
+
+
     [Header("Health Bar")]
     public float maxHealth = 100;
     public float barDelay = 2f; // speed of the delay bar takes to catch up to health lost
@@ -32,6 +36,13 @@ public class PlayerHealth : MonoBehaviour
     {
         health = Mathf.Clamp(health, 0, maxHealth);
         UpdateHealthUI();
+
+        if (health <= 0)
+        {
+            PlayerDead();  // Call the PlayerDead method when health is 0 or lower
+            isDead = true;
+        }
+
         if (damageOverlay.color.a > 0)
         {
             if (health < 30)
@@ -51,7 +62,7 @@ public class PlayerHealth : MonoBehaviour
         //Debug.Log(health); //consol log for health 
         float fillFrontH = frontHealthBar.fillAmount;
         float fillBackH = backHealthBar.fillAmount;
-        float healthFraction = health / maxHealth; 
+        float healthFraction = health / maxHealth;
         if (fillBackH > healthFraction)
         {
             frontHealthBar.fillAmount = healthFraction;
@@ -74,16 +85,42 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
-        health -= damage;
-        lerpTimer = 0f;
-        durationTimer = 0;
-        damageOverlay.color = new Color(damageOverlay.color.r, damageOverlay.color.g, damageOverlay.color.b, 1);
+        if (isDead == false)
+        {
+            health -= damage;
+            lerpTimer = 0f;
+            durationTimer = 0;
+            damageOverlay.color = new Color(damageOverlay.color.r, damageOverlay.color.g, damageOverlay.color.b, 1);
+        }
     }
 
     public void HealthRestore(float healVal)
     {
         health += healVal;
         lerpTimer = 0f;
+    }
+
+    private void PlayerDead()
+    {
+        GetComponent<PlayerMovement>().SetDead(true);
+
+        GetComponent<PlayerMovement>().enabled = false;
+        GetComponent<PlayerInteract>().enabled = false;
+        GetComponent<CharacterController>().enabled = false;
+
+        //Debug.Log("Player has died!");
+
+        // Dying animation
+        GetComponentInChildren<Animator>().enabled = true;
+
+        GetComponent<PlayerScreenBlackout>().StartFade();
+        StartCoroutine(ShowGameOverUI());
+    }
+
+    private IEnumerator ShowGameOverUI()
+    {
+        yield return new WaitForSeconds(1f);
+        gameOverUI.gameObject.SetActive(true);
     }
 
 }
