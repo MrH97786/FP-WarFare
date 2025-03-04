@@ -10,9 +10,9 @@ public class Enemy : MonoBehaviour
     private GameObject player;
     private Vector3 lastKnownPosition;
 
-    public NavMeshAgent Agent {get => agent;}
-    public GameObject Player {get => player;}
-    public Vector3 LastKnownPosition {get => lastKnownPosition; set => lastKnownPosition = value;}
+    public NavMeshAgent Agent { get => agent; }
+    public GameObject Player { get => player; }
+    public Vector3 LastKnownPosition { get => lastKnownPosition; set => lastKnownPosition = value; }
 
     public EnemyPath enemyPath;
 
@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     [SerializeField]
     private string currentState;
 
+    public bool isDead = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +38,11 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateController.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        // Set a random avoidance priority (lower = higher priority)
+        agent.avoidancePriority = Random.Range(30, 70);
     }
+
 
     // Update is called once per frame
     void Update()
@@ -46,28 +52,24 @@ public class Enemy : MonoBehaviour
     }
 
     public bool DetectPlayer()
+{
+    if (player != null)
     {
-        if (player != null)
+        if (Vector3.Distance(transform.position, player.transform.position) < detectionRange)
         {
-            if (Vector3.Distance(transform.position, player.transform.position) < detectionRange)
+            Ray ray = new Ray(transform.position + (Vector3.up * eyeLevel), player.transform.position - transform.position);
+            RaycastHit hitInfo;
+            if (Physics.Raycast(ray, out hitInfo, detectionRange))
             {
-                Vector3 targetDirection = player.transform.position - transform.position - (Vector3.up * eyeLevel);
-                float angleToPlayer = Vector3.Angle(targetDirection, transform.forward);
-                if (angleToPlayer >= -fieldOfView && angleToPlayer <= fieldOfView)
+                if (hitInfo.transform.gameObject == player)
                 {
-                    Ray ray = new Ray(transform.position + (Vector3.up * eyeLevel), targetDirection);
-                    RaycastHit hitInfo = new RaycastHit();
-                    if (Physics.Raycast(ray, out hitInfo, detectionRange))
-                    {
-                        if (hitInfo.transform.gameObject == player)
-                        {
-                            Debug.DrawRay(ray.origin, ray.direction * detectionRange, Color.red);
-                            return true;
-                        }
-                    }
+                    Debug.DrawRay(ray.origin, ray.direction * detectionRange, Color.red);
+                    return true;
                 }
             }
         }
-        return false;
     }
+    return false;
+}
+
 }
