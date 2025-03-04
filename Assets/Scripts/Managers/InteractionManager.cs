@@ -9,6 +9,7 @@ public class InteractionManager : MonoBehaviour
     private InputAction pickupAction;
 
     public PlayerWeapon hoveredOverWeapon = null;
+    public AmmoBox hoveredOverAmmoBox = null;
 
     private void Awake()
     {
@@ -56,12 +57,12 @@ public class InteractionManager : MonoBehaviour
         {
             GameObject objectHitByRaycast = hit.transform.gameObject;
 
+            // Weapon
             if (objectHitByRaycast.GetComponent<PlayerWeapon>() && objectHitByRaycast.GetComponent<PlayerWeapon>().isWeaponActive == false)
             {
                 hoveredOverWeapon = objectHitByRaycast.GetComponent<PlayerWeapon>();
                 hoveredOverWeapon.GetComponent<Outline>().enabled = true;
                 Debug.Log("Ray hit: " + hit.transform.name);
-
 
                 if (pickupAction.triggered)
                 {
@@ -75,11 +76,27 @@ public class InteractionManager : MonoBehaviour
                     hoveredOverWeapon.GetComponent<Outline>().enabled = false;
                 }
             }
+
+            // Ammo box
+            if (objectHitByRaycast.GetComponent<AmmoBox>())
+            {
+                hoveredOverAmmoBox = objectHitByRaycast.GetComponent<AmmoBox>();
+                hoveredOverAmmoBox.GetComponent<Outline>().enabled = true;
+
+                if (pickupAction.triggered)
+                {
+                    WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox); // Refill ammo on any weapon
+                }
+            }
+            else
+            {
+                if (hoveredOverAmmoBox)
+                {
+                    hoveredOverAmmoBox.GetComponent<Outline>().enabled = false;
+                }
+            }
         }
     }
-
-
-
 
     private void OnPickup(InputAction.CallbackContext context)
     {

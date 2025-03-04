@@ -11,6 +11,10 @@ public class WeaponManager : MonoBehaviour
 
     public GameObject activeWeaponSlot;
 
+    [Header("Ammo")]
+    public int totalRifleAmmo = 0;
+    public int totalPistolAmmo = 0;
+
     private PlayerInput playerInput;
     private InputAction switchSlot1Action;
     private InputAction switchSlot2Action;
@@ -66,6 +70,19 @@ public class WeaponManager : MonoBehaviour
     public void WeaponPickup(GameObject pickedUpWeapon)
     {
         AddWeaponIntoActiveSlot(pickedUpWeapon);
+    }
+
+    public void AmmoPickup(AmmoBox ammo)
+    {
+        switch (ammo.ammoType)
+        {
+            case AmmoBox.AmmoType.PistolAmmo:
+                totalPistolAmmo += ammo.ammoAmount;
+                break;
+            case AmmoBox.AmmoType.RifleAmmo:
+                totalRifleAmmo += ammo.ammoAmount;
+                break;
+        }
     }
 
 
@@ -148,5 +165,32 @@ public class WeaponManager : MonoBehaviour
         }
         Physics.SyncTransforms();
     }
+
+    internal void DecreaseTotalAmmo(int bulletsToDecrease, PlayerWeapon.WeaponModel thisWeaponModel)
+    {
+        switch (thisWeaponModel)
+        {
+            case PlayerWeapon.WeaponModel.M4A1_AssaultRifle:
+                totalRifleAmmo -= bulletsToDecrease;
+                break;
+            case PlayerWeapon.WeaponModel.Pistol_D:
+                totalPistolAmmo -= bulletsToDecrease;
+                break;
+        }
+    }
+
+    public int CheckAmmoLeftFor(PlayerWeapon.WeaponModel thisWeaponModel)
+    {
+        switch (thisWeaponModel)
+        {
+            case PlayerWeapon.WeaponModel.Pistol_D:
+                return totalPistolAmmo;
+            case PlayerWeapon.WeaponModel.M4A1_AssaultRifle:
+                return totalRifleAmmo;
+            default:
+                return 0;
+        }
+    }
+
 
 }

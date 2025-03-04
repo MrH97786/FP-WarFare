@@ -78,7 +78,7 @@ public class PlayerWeapon : MonoBehaviour
         if (isWeaponActive)
         {
             GetComponent<Outline>().enabled = false;
-            
+
             if (bulletsLeft == 0 && isShooting)
             {
                 SoundManager.Instance.emptyMagazineSound.Play(); //Play empty magazine sound when no bullets and player tries clicking mouse
@@ -110,7 +110,7 @@ public class PlayerWeapon : MonoBehaviour
             }
 
             // Handling ammo display logic
-            
+
         }
     }
 
@@ -155,24 +155,44 @@ public class PlayerWeapon : MonoBehaviour
 
     private void AttemptReload()
     {
-        if (bulletsLeft < magazineSize && !isReloading)
+        int totalAmmo = WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel);
+
+        // Prevent reloading animation when there's no ammo left
+        if (bulletsLeft < magazineSize && !isReloading && totalAmmo > 0)
         {
             Reload();
         }
     }
 
+
     private void Reload()
     {
-        SoundManager.Instance.PlayReloadSound(thisWeaponModel); // Play reloading sound when reloading the gun
-        animator.SetTrigger("RELOAD"); // Reload animation
+        int totalAmmo = WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel);
+
+        // If there's no total ammo left, do not trigger reload
+        if (totalAmmo <= 0) return;
+
+        SoundManager.Instance.PlayReloadSound(thisWeaponModel);
+        animator.SetTrigger("RELOAD");
 
         isReloading = true;
         Invoke("ReloadCompleted", reloadTime);
     }
 
+
     private void ReloadCompleted()
     {
-        bulletsLeft = magazineSize;
+        if (WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel) > magazineSize)
+        {
+            bulletsLeft = magazineSize;
+            WeaponManager.Instance.DecreaseTotalAmmo(bulletsLeft, thisWeaponModel);
+        }
+        else
+        {
+            bulletsLeft = WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel);
+            WeaponManager.Instance.DecreaseTotalAmmo(bulletsLeft, thisWeaponModel);
+        }
+
         isReloading = false;
     }
 
