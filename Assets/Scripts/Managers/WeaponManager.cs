@@ -18,7 +18,6 @@ public class WeaponManager : MonoBehaviour
     public int maxRifleAmmo = 200;
     public int maxPistolAmmo = 80;
 
-
     private PlayerInput playerInput;
     private InputAction switchSlot1Action;
     private InputAction switchSlot2Action;
