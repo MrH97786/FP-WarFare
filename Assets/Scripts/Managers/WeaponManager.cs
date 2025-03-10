@@ -15,6 +15,10 @@ public class WeaponManager : MonoBehaviour
     public int totalRifleAmmo = 0;
     public int totalPistolAmmo = 0;
 
+    public int maxRifleAmmo = 200;
+    public int maxPistolAmmo = 80;
+
+
     private PlayerInput playerInput;
     private InputAction switchSlot1Action;
     private InputAction switchSlot2Action;
@@ -77,13 +81,14 @@ public class WeaponManager : MonoBehaviour
         switch (ammo.ammoType)
         {
             case AmmoBox.AmmoType.PistolAmmo:
-                totalPistolAmmo += ammo.ammoAmount;
+                totalPistolAmmo = Mathf.Min(totalPistolAmmo + ammo.ammoAmount, maxPistolAmmo);
                 break;
             case AmmoBox.AmmoType.RifleAmmo:
-                totalRifleAmmo += ammo.ammoAmount;
+                totalRifleAmmo = Mathf.Min(totalRifleAmmo + ammo.ammoAmount, maxRifleAmmo);
                 break;
         }
     }
+
 
 
     private void AddWeaponIntoActiveSlot(GameObject pickedUpWeapon)
