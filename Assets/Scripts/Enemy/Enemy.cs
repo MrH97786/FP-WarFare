@@ -50,6 +50,15 @@ public class Enemy : MonoBehaviour
     {
         DetectPlayer();
         currentState = stateController.activeState.ToString();
+
+        if (agent.velocity.magnitude > 0.1f)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        else
+        {
+            animator.SetBool("isWalking", false);
+        }
     }
 
     public bool DetectPlayer()
@@ -73,15 +82,26 @@ public class Enemy : MonoBehaviour
         return false;
     }
 
-    public void TakeDamage (int damageAmount)
+    public void TakeDamage(int damageAmount)
     {
         Debug.Log("Enemy took damage: " + damageAmount);
         enemyHealth -= damageAmount;
 
         if (enemyHealth <= 0)
         {
-            animator.SetTrigger("DIE");
-            Destroy(gameObject);
+            int randomValue = Random.Range(0, 2); 
+
+            if (randomValue == 0)
+            {
+                animator.SetTrigger("DIE1");
+            }
+            else
+            {
+                animator.SetTrigger("DIE2");
+            }
+
+            isDead = true; // Optional: Mark enemy as dead
+            agent.isStopped = true; // Optional: Stop movement when dead
         }
         else
         {
