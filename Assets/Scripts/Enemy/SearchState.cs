@@ -24,12 +24,16 @@ public class SearchState : EnemyBaseState
         {
             searchPlayerTimer += Time.deltaTime;
             searchAroundTimer += Time.deltaTime;
+            enemy.GetComponent<Animator>().SetBool("IsSearching", false);
+            
 
             if (searchAroundTimer > Random.Range(3, 5))
             {
+                enemy.GetComponent<Animator>().SetBool("IsSearching", true);
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 10));
                 searchAroundTimer = 0;
             }
+
             if (searchPlayerTimer > 10)
             {
                 stateController.ChangeState(new PatrolState());

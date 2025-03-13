@@ -39,7 +39,7 @@ public class AttackState : EnemyBaseState
         else
         {
             playerLostTimer += Time.deltaTime; 
-            if (playerLostTimer > 8)
+            if (playerLostTimer > 1)
             {
                 stateController.ChangeState(new SearchState());
             }

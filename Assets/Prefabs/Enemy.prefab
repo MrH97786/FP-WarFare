@@ -1290,7 +1290,7 @@ MonoBehaviour:
   isDead: 0
   detectionRange: 20
   fieldOfView: 85
-  eyeLevel: 0.3
+  eyeLevel: 0.8
   gunBarrel: {fileID: 4580907968554481635}
   fireRate: 1.3
 --- !u!1 &5627537631966146940
