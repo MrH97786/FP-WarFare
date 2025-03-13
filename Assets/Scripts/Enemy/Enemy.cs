@@ -31,7 +31,6 @@ public class Enemy : MonoBehaviour
     [Range(0.1f, 10f)]
     public float fireRate;
 
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -39,26 +38,13 @@ public class Enemy : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         stateController.Initialise();
         player = GameObject.FindGameObjectWithTag("Player");
-
-        // Set a random avoidance priority (lower = higher priority)
         agent.avoidancePriority = Random.Range(30, 70);
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         DetectPlayer();
         currentState = stateController.activeState.ToString();
-
-        if (agent.velocity.magnitude > 0.1f)
-        {
-            animator.SetBool("isWalking", true);
-        }
-        else
-        {
-            animator.SetBool("isWalking", false);
-        }
     }
 
     public bool DetectPlayer()
@@ -90,23 +76,13 @@ public class Enemy : MonoBehaviour
         if (enemyHealth <= 0)
         {
             int randomValue = Random.Range(0, 2); 
-
-            if (randomValue == 0)
-            {
-                animator.SetTrigger("DIE1");
-            }
-            else
-            {
-                animator.SetTrigger("DIE2");
-            }
-
-            isDead = true; // Optional: Mark enemy as dead
-            agent.isStopped = true; // Optional: Stop movement when dead
+            animator.SetTrigger(randomValue == 0 ? "DIE1" : "DIE2");
+            isDead = true;
+            agent.isStopped = true;
         }
         else
         {
             animator.SetTrigger("DAMAGE");
         }
     }
-
 }

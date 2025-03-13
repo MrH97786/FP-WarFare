@@ -10,6 +10,7 @@ public class SearchState : EnemyBaseState
     public override void Enter()
     {
         enemy.Agent.SetDestination(enemy.LastKnownPosition);
+        enemy.GetComponent<Animator>().SetBool("IsSearching", true);
     }
 
     public override void Perform()
@@ -23,7 +24,7 @@ public class SearchState : EnemyBaseState
         {
             searchPlayerTimer += Time.deltaTime;
             searchAroundTimer += Time.deltaTime;
-            // Enemy looks around players last known position
+
             if (searchAroundTimer > Random.Range(3, 5))
             {
                 enemy.Agent.SetDestination(enemy.transform.position + (Random.insideUnitSphere * 10));
@@ -38,7 +39,6 @@ public class SearchState : EnemyBaseState
     
     public override void Exit()
     {
-
+        enemy.GetComponent<Animator>().SetBool("IsSearching", false);
     }
-    
 }
