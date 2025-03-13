@@ -75,14 +75,27 @@ public class Enemy : MonoBehaviour
 
         if (enemyHealth <= 0)
         {
-            int randomValue = Random.Range(0, 2); 
-            animator.SetTrigger(randomValue == 0 ? "DIE1" : "DIE2");
-            isDead = true;
-            agent.isStopped = true;
+            Die();
         }
         else
         {
             animator.SetTrigger("DAMAGE");
         }
     }
+
+    private void Die()
+    {
+        int randomValue = Random.Range(0, 2);
+        animator.SetTrigger(randomValue == 0 ? "DIE1" : "DIE2");
+
+        isDead = true;
+        agent.isStopped = true; // Stop movement
+        agent.enabled = false;  // Disable NavMeshAgent 
+        stateController.enabled = false; // Stop AI state controller
+
+        this.GetComponent<Collider>().enabled = false; // Disable collider 
+
+        Destroy(gameObject, 10f); // Destroy enemy after 10 seconds
+    }
+
 }
