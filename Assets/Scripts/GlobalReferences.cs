@@ -7,6 +7,7 @@ public class GlobalReferences : MonoBehaviour
     public static GlobalReferences Instance { get; set;}
 
     public GameObject bulletImpactEffect;
+    public GameObject bloodSprayEffect;
 
     private void Awake()
     {

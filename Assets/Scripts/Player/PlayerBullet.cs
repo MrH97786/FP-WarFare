@@ -15,7 +15,7 @@ public class PlayerBullet : MonoBehaviour
             Debug.Log("Hit " + collision.gameObject.name + " !");
             CreateBulletImpactEffect(hitTransform, collision);
         }
-        
+
         if (hitTransform.CompareTag("Wall") || hitTransform.CompareTag("Floor"))
         {
             Debug.Log("Hit a wall or floor!");
@@ -24,7 +24,12 @@ public class PlayerBullet : MonoBehaviour
 
         if (hitTransform.CompareTag("Enemy"))
         {
-            hitTransform.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
+            if (hitTransform.gameObject.GetComponent<Enemy>().isDead == false)
+            {
+                hitTransform.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
+            }
+            
+            CreateBloodSprayEffect(hitTransform, collision);
         }
 
         Destroy(gameObject);
@@ -33,7 +38,16 @@ public class PlayerBullet : MonoBehaviour
     void CreateBulletImpactEffect(Transform objectWeHit, Collision collision)
     {
         ContactPoint contact = collision.contacts[0];
+
         GameObject hole = Instantiate(GlobalReferences.Instance.bulletImpactEffect, contact.point, Quaternion.LookRotation(contact.normal));
         hole.transform.SetParent(objectWeHit);
+    }
+
+    void CreateBloodSprayEffect(Transform objectWeHit, Collision collision)
+    {
+        ContactPoint contact = collision.contacts[0];
+
+        GameObject bloodSpray = Instantiate(GlobalReferences.Instance.bloodSprayEffect, contact.point, Quaternion.LookRotation(contact.normal));
+        bloodSpray.transform.SetParent(objectWeHit);
     }
 }

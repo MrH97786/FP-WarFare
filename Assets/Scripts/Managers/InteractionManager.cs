@@ -11,6 +11,8 @@ public class InteractionManager : MonoBehaviour
     public PlayerWeapon hoveredOverWeapon = null;
     public AmmoBox hoveredOverAmmoBox = null;
 
+    private bool justPickedUp = false; // ✅ Prevents immediate re-pickup
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -39,70 +41,91 @@ public class InteractionManager : MonoBehaviour
         pickupAction.performed -= OnPickup;
     }
 
-    //private float interactionRange = 2f; // range for raycast
+    private float interactionRange = 2f; // range for raycast
 
     private void Update()
     {
         if (hoveredOverWeapon != null && hoveredOverWeapon.gameObject.layer == LayerMask.NameToLayer("Ignore Raycast"))
         {
             ResetWeaponHighlight();
-            hoveredOverWeapon = null;
-            return; 
+            return;
         }
 
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit)) 
+        if (Physics.Raycast(ray, out hit, interactionRange))
         {
             GameObject objectHitByRaycast = hit.transform.gameObject;
 
             // Weapon
-            if (objectHitByRaycast.GetComponent<PlayerWeapon>() && objectHitByRaycast.GetComponent<PlayerWeapon>().isWeaponActive == false)
+            if (objectHitByRaycast.TryGetComponent(out PlayerWeapon weapon) && !weapon.isWeaponActive)
             {
-                hoveredOverWeapon = objectHitByRaycast.GetComponent<PlayerWeapon>();
-                hoveredOverWeapon.GetComponent<Outline>().enabled = true;
-                Debug.Log("Ray hit: " + hit.transform.name);
-
-                if (pickupAction.triggered)
+                if (hoveredOverWeapon != weapon)
                 {
-                    WeaponManager.Instance.WeaponPickup(objectHitByRaycast.gameObject);
+                    ResetWeaponHighlight();
+                    hoveredOverWeapon = weapon;
+                    hoveredOverWeapon.GetComponent<Outline>().enabled = true;
+                    Debug.Log("Ray hit: " + hit.transform.name);
+                }
+
+                if (pickupAction.triggered && !justPickedUp)
+                {
+                    justPickedUp = true;  // ✅ Set flag to prevent instant re-pickup
+                    WeaponManager.Instance.WeaponPickup(hoveredOverWeapon.gameObject);
+                    Invoke(nameof(ResetPickupFlag), 0.2f); // ✅ Reset flag after delay
                 }
             }
-            else
+            else if (hoveredOverWeapon)
             {
-                if (hoveredOverWeapon)
-                {
-                    hoveredOverWeapon.GetComponent<Outline>().enabled = false;
-                }
+                ResetWeaponHighlight();
             }
 
             // Ammo box
-            if (objectHitByRaycast.GetComponent<AmmoBox>())
+            if (objectHitByRaycast.TryGetComponent(out AmmoBox ammoBox))
             {
-                hoveredOverAmmoBox = objectHitByRaycast.GetComponent<AmmoBox>();
-                hoveredOverAmmoBox.GetComponent<Outline>().enabled = true;
+                if (hoveredOverAmmoBox != ammoBox)
+                {
+                    if (hoveredOverAmmoBox)
+                    {
+                        hoveredOverAmmoBox.GetComponent<Outline>().enabled = false;
+                    }
+
+                    hoveredOverAmmoBox = ammoBox;
+                    hoveredOverAmmoBox.GetComponent<Outline>().enabled = true;
+                }
+
 
                 if (pickupAction.triggered)
                 {
-                    WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox); // Refill ammo on any weapon
+                    WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox);
                 }
             }
-            else
+            else if (hoveredOverAmmoBox)
             {
-                if (hoveredOverAmmoBox)
-                {
-                    hoveredOverAmmoBox.GetComponent<Outline>().enabled = false;
-                }
+                hoveredOverAmmoBox.GetComponent<Outline>().enabled = false;
+                hoveredOverAmmoBox = null;
+            }
+        }
+        else
+        {
+            // Reset highlights if looking away
+            ResetWeaponHighlight();
+            if (hoveredOverAmmoBox)
+            {
+                hoveredOverAmmoBox.GetComponent<Outline>().enabled = false;
+                hoveredOverAmmoBox = null;
             }
         }
     }
 
     private void OnPickup(InputAction.CallbackContext context)
     {
-        if (hoveredOverWeapon != null)
+        if (hoveredOverWeapon != null && !justPickedUp)
         {
+            justPickedUp = true;
             WeaponManager.Instance.WeaponPickup(hoveredOverWeapon.gameObject);
+            Invoke(nameof(ResetPickupFlag), 0.2f);
         }
     }
 
@@ -113,5 +136,10 @@ public class InteractionManager : MonoBehaviour
             hoveredOverWeapon.GetComponent<Outline>().enabled = false;
             hoveredOverWeapon = null;
         }
+    }
+
+    private void ResetPickupFlag()
+    {
+        justPickedUp = false; // ✅ Allows switching weapons after a delay
     }
 }
