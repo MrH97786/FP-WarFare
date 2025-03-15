@@ -29,6 +29,7 @@ public class EnemySpawnController : MonoBehaviour
     private void Start()
     {
         currentEnemiesPerWave = initialEnemiesPerWave;
+        GlobalReferences.Instance.waveNumber = currentWave;
         StartNextWave();
     }
 
@@ -36,6 +37,8 @@ public class EnemySpawnController : MonoBehaviour
     {
         currentEnemiesAlive.Clear();
         currentWave++;
+        GlobalReferences.Instance.waveNumber = currentWave;
+
         currentWaveUI.text = "Wave: " + currentWave.ToString();
         StartCoroutine(SpawnWave());
     }

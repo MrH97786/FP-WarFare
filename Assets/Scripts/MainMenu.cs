@@ -10,14 +10,20 @@ public class MainMenu : MonoBehaviour
 
     string newGameScene = "FP-WarFare S1";
 
+    public AudioSource main_channel;
+    public AudioClip background_music;
+
     void Start()
     {
+        main_channel.clip = background_music; 
+        main_channel.Play();
         int highScore = SaveLoadManager.Instance.LoadHighScore();
         highScoreUI.text = $"Highest Wave Survived: {highScore}";
     }
 
     public void StartNewGame()
     {
+        main_channel.Stop();
         SceneManager.LoadScene(newGameScene);
     }
     

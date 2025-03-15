@@ -28733,6 +28733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletImpactEffect: {fileID: 7479552332411969334, guid: 8ac38efad6f441c448af23127c724507, type: 3}
   bloodSprayEffect: {fileID: 3537409833558169573, guid: 031ff2bfbab5fcb47aa322c586e71279, type: 3}
+  waveNumber: 0
 --- !u!4 &867911654
 Transform:
   m_ObjectHideFlags: 0
@@ -58147,7 +58148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverUI: {fileID: 2032724433}
   isDead: 0
-  maxHealth: 1000
+  maxHealth: 100
   barDelay: 2
   frontHealthBar: {fileID: 575160647}
   backHealthBar: {fileID: 891518607}

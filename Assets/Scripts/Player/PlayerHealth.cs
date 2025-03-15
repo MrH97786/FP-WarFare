@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -126,5 +127,20 @@ public class PlayerHealth : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         gameOverUI.gameObject.SetActive(true);
+
+        int waveSurvived = GlobalReferences.Instance.waveNumber;
+
+        if (waveSurvived - 1 > SaveLoadManager.Instance.LoadHighScore())
+        {
+            SaveLoadManager.Instance.SaveHighScore(waveSurvived - 1);
+        }
+        
+        StartCoroutine(ReturnToMainMenu());
+    }
+
+    private IEnumerator ReturnToMainMenu()
+    {
+        yield return new WaitForSeconds(4f);
+        SceneManager.LoadScene("MainMenu");
     }
 }
