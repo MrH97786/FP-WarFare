@@ -80,6 +80,7 @@ public class Enemy : MonoBehaviour
         else
         {
             animator.SetTrigger("DAMAGE");
+            SoundManager.Instance.enemyChannel.PlayOneShot(SoundManager.Instance.enemyHurt);
         }
     }
 
@@ -88,6 +89,9 @@ public class Enemy : MonoBehaviour
         int randomValue = Random.Range(0, 2);
         animator.SetTrigger(randomValue == 0 ? "DIE1" : "DIE2");
 
+        SoundManager.Instance.enemyChannel.PlayOneShot(SoundManager.Instance.enemyDeath);
+        SoundManager.Instance.enemyLoopChannel.loop = false;
+        SoundManager.Instance.enemyLoopChannel.Stop();
         isDead = true;
         agent.isStopped = true; // Stop movement
         agent.enabled = false;  // Disable NavMeshAgent 

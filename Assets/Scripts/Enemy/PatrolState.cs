@@ -33,6 +33,8 @@ public class PatrolState : EnemyBaseState
         if (enemy.Agent.remainingDistance < 0.2f && !enemy.Agent.pathPending)
         {
             animator.SetBool("isWalking", false);
+            SoundManager.Instance.enemyLoopChannel.loop = false;
+            SoundManager.Instance.enemyLoopChannel.Stop();
             waitTimer += Time.deltaTime;
 
             if (waitTimer > 3)
@@ -42,6 +44,15 @@ public class PatrolState : EnemyBaseState
 
                 animator.SetBool("isWalking", true);
                 waitTimer = 0;
+
+                if (!SoundManager.Instance.enemyLoopChannel.isPlaying)
+                {
+                    SoundManager.Instance.enemyLoopChannel.clip = SoundManager.Instance.enemyWalking;
+                    SoundManager.Instance.enemyLoopChannel.loop = true;
+                    SoundManager.Instance.enemyLoopChannel.Play();
+                }
+
+
             }
         }
     }

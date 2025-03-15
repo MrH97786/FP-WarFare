@@ -21,6 +21,14 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerHurt;
     public AudioClip playerDie;
 
+    public AudioSource enemyChannel;
+    public AudioClip enemyAttacking;
+    public AudioClip enemyHurt;
+    public AudioClip enemyDeath;
+
+    public AudioSource enemyLoopChannel;
+    public AudioClip enemyWalking;
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
