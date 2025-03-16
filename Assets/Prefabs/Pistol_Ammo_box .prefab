@@ -14,7 +14,9 @@ GameObject:
   - component: {fileID: 1826181739177657614}
   - component: {fileID: 1826181739177657600}
   - component: {fileID: 1826181739177657615}
-  m_Layer: 0
+  - component: {fileID: -4650973375737133838}
+  - component: {fileID: -3379978421572189137}
+  m_Layer: 6
   m_Name: 'Pistol_Ammo_box '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +132,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoAmount: 80
+  ammoCost: 150
   ammoType: 1
+--- !u!114 &-4650973375737133838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824453412706535497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70beedb201e2d5443931b83d1a99ea3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+--- !u!114 &-3379978421572189137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1824453412706535497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe8db9cafc876c438219745936d99c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &7742678794727607256
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -141,6 +173,10 @@ PrefabInstance:
     - target: {fileID: 4758455482113565169, guid: e7577c11c66aae446a5115f0556e919d, type: 3}
       propertyPath: m_Name
       value: Pistol_D_Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758455482113565169, guid: e7577c11c66aae446a5115f0556e919d, type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6035206969698991573, guid: e7577c11c66aae446a5115f0556e919d, type: 3}
       propertyPath: m_RootOrder

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4716645364145226793}
   - component: {fileID: 4716645364146029579}
   - component: {fileID: 4716645364147128011}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: M4A1_AssaultRifle_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,9 @@ GameObject:
   - component: {fileID: 4716645364144871476}
   - component: {fileID: 3688739272456888948}
   - component: {fileID: 2639213522035968798}
-  m_Layer: 0
+  - component: {fileID: 3888993505505473903}
+  - component: {fileID: 8197053353031343797}
+  m_Layer: 6
   m_Name: M4A1_AssaultRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,6 +205,35 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &3888993505505473903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716645364144871435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70beedb201e2d5443931b83d1a99ea3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+--- !u!114 &8197053353031343797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4716645364144871435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe8db9cafc876c438219745936d99c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4716645364144871437
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +245,7 @@ GameObject:
   - component: {fileID: 4716645364145226797}
   - component: {fileID: 4716645364146029583}
   - component: {fileID: 4716645364147128015}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: M4A1_AssaultRifle_Magazine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -296,7 +327,7 @@ GameObject:
   - component: {fileID: 4716645364145226799}
   - component: {fileID: 4716645364146029577}
   - component: {fileID: 4716645364147128009}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: M4A1_AssaultRifle_Iron_Sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +409,7 @@ GameObject:
   - component: {fileID: 4716645365781142854}
   - component: {fileID: 4716645365781142848}
   - component: {fileID: 4716645365781142855}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlashEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5135,7 +5166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4716645366197664191}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}

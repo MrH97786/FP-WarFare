@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 28758823162198845}
   - component: {fileID: 204757601054222903}
   - component: {fileID: 192216035725234613}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: MuzzleFlashEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4770,7 +4770,7 @@ GameObject:
   - component: {fileID: 4776721596470653669}
   - component: {fileID: 8498241066983992833}
   - component: {fileID: 3088204151362133275}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pistol_D_Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4854,7 +4854,9 @@ GameObject:
   - component: {fileID: 2591074661253522282}
   - component: {fileID: 1696484932710479638}
   - component: {fileID: 480077917}
-  m_Layer: 0
+  - component: {fileID: 3946848993213807632}
+  - component: {fileID: 3878751908302849020}
+  m_Layer: 6
   m_Name: Pistol_D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4964,6 +4966,35 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &3946848993213807632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2591074661253522281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70beedb201e2d5443931b83d1a99ea3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+--- !u!114 &3878751908302849020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2591074661253522281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe8db9cafc876c438219745936d99c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3157272006611074830
 GameObject:
   m_ObjectHideFlags: 0
@@ -4975,7 +5006,7 @@ GameObject:
   - component: {fileID: 2818513356938040749}
   - component: {fileID: 6219466602257478760}
   - component: {fileID: 6425153410169670112}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pistol_D_Receiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5057,7 +5088,7 @@ GameObject:
   - component: {fileID: 7938119559257403401}
   - component: {fileID: 2718118892332694038}
   - component: {fileID: 2204481611709876081}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pistol_D_Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5139,7 +5170,7 @@ GameObject:
   - component: {fileID: 1172749347341376505}
   - component: {fileID: 4692140673380560915}
   - component: {fileID: 6972076293638721051}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pistol_D_Bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5221,7 +5252,7 @@ GameObject:
   - component: {fileID: 3256868406374583779}
   - component: {fileID: 8489722883141727257}
   - component: {fileID: 8638665564919162823}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pistol_D_Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5303,7 +5334,7 @@ GameObject:
   - component: {fileID: 2208810891741208346}
   - component: {fileID: 7001418874410079487}
   - component: {fileID: 5021934894167459873}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pistol_D_Receiver_Part
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5383,7 +5414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7474989640356351856}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
