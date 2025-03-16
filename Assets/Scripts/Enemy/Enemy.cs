@@ -86,6 +86,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        ScoreManager.instance.AddPoints();
         int randomValue = Random.Range(0, 2);
         animator.SetTrigger(randomValue == 0 ? "DIE1" : "DIE2");
 
