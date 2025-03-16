@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text scoreText;
 
     int score = 0;
-    
+
     private void Awake()
     {
         instance = this;
@@ -24,5 +24,19 @@ public class ScoreManager : MonoBehaviour
     {
         score += 50;
         scoreText.text = score.ToString();
+    }
+
+    public bool HasEnoughPoints(int amount)
+    {
+        return score >= amount;
+    }
+
+    public void DeductPoints(int amount)
+    {
+        if (HasEnoughPoints(amount))
+        {
+            score -= amount;
+            scoreText.text = score.ToString();
+        }
     }
 }

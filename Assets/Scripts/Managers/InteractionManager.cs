@@ -7,12 +7,13 @@ public class InteractionManager : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction pickupAction;
-    private InputAction interactAction; 
+    private InputAction interactAction;
 
     public PlayerWeapon hoveredOverWeapon = null;
     public AmmoBox hoveredOverAmmoBox = null;
 
-    private bool justPickedUp = false; 
+    private bool justPickedUp = false;
+
 
     private void Awake()
     {
@@ -28,22 +29,22 @@ public class InteractionManager : MonoBehaviour
         // Initialize PlayerInput
         playerInput = new PlayerInput();
         pickupAction = playerInput.OnFoot.Pickup;
-        interactAction = playerInput.OnFoot.Interact; 
+        interactAction = playerInput.OnFoot.Interact;
     }
 
     private void OnEnable()
     {
         pickupAction.Enable();
-        interactAction.Enable(); 
+        interactAction.Enable();
 
         pickupAction.performed += OnPickup;
-        interactAction.performed += OnInteract; 
+        interactAction.performed += OnInteract;
     }
 
     private void OnDisable()
     {
         pickupAction.Disable();
-        interactAction.Disable(); 
+        interactAction.Disable();
 
         pickupAction.performed -= OnPickup;
         interactAction.performed -= OnInteract;
@@ -79,7 +80,7 @@ public class InteractionManager : MonoBehaviour
 
                 if (pickupAction.triggered && !justPickedUp)
                 {
-                    justPickedUp = true;  
+                    justPickedUp = true;
                     WeaponManager.Instance.WeaponPickup(hoveredOverWeapon.gameObject);
                     Invoke(nameof(ResetPickupFlag), 0.2f);
                 }
@@ -103,10 +104,7 @@ public class InteractionManager : MonoBehaviour
                     hoveredOverAmmoBox.GetComponent<Outline>().enabled = true;
                 }
 
-                if (interactAction.triggered) 
-                {
-                    WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox);
-                }
+                // Don't call interactAction.triggered here anymore
             }
             else if (hoveredOverAmmoBox)
             {
@@ -136,13 +134,53 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
-    private void OnInteract(InputAction.CallbackContext context) // New method for AmmoBox interaction
+    private void OnInteract(InputAction.CallbackContext context)
     {
         if (hoveredOverAmmoBox != null)
         {
-            WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox);
+            int cost = hoveredOverAmmoBox.ammoCost;  // Get the cost from the specific AmmoBox
+
+            // Check if the player's gun is already full
+            PlayerWeapon activeWeapon = WeaponManager.Instance.activeWeaponSlot.transform.GetChild(0).GetComponent<PlayerWeapon>();
+            bool isGunFull = false;
+
+            switch (activeWeapon.thisWeaponModel)
+            {
+                case PlayerWeapon.WeaponModel.Pistol_D:
+                    if (WeaponManager.Instance.totalPistolAmmo >= WeaponManager.Instance.maxPistolAmmo)
+                    {
+                        isGunFull = true;
+                    }
+                    break;
+
+                case PlayerWeapon.WeaponModel.M4A1_AssaultRifle:
+                    if (WeaponManager.Instance.totalRifleAmmo >= WeaponManager.Instance.maxRifleAmmo)
+                    {
+                        isGunFull = true;
+                    }
+                    break;
+            }
+
+            if (isGunFull)
+            {
+                Debug.Log("Gun is full. Cannot pick up more ammo.");
+                return; // Prevent interaction with ammo box if the gun is full
+            }
+
+            // Check if the player has enough points
+            if (ScoreManager.instance.HasEnoughPoints(cost))
+            {
+                ScoreManager.instance.DeductPoints(cost);
+                WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox);
+                Debug.Log("Ammo box used! -" + cost + " points deducted.");
+            }
+            else
+            {
+                Debug.Log("Not enough points to use the Ammo Box!");
+            }
         }
     }
+
 
     private void ResetWeaponHighlight()
     {

@@ -80,14 +80,36 @@ public class WeaponManager : MonoBehaviour
         switch (ammo.ammoType)
         {
             case AmmoBox.AmmoType.PistolAmmo:
-                totalPistolAmmo = Mathf.Min(totalPistolAmmo + ammo.ammoAmount, maxPistolAmmo);
+                // Replenish ammo in the chamber (weapon's magazine)
+                PlayerWeapon activeWeapon = activeWeaponSlot.transform.GetChild(0).GetComponent<PlayerWeapon>();
+                if (activeWeapon.thisWeaponModel == PlayerWeapon.WeaponModel.Pistol_D)
+                {
+                    // Fill the chamber with available ammo first
+                    int ammoNeededForChamber = activeWeapon.magazineSize - activeWeapon.bulletsLeft;
+                    int ammoToReplenishInChamber = Mathf.Min(ammoNeededForChamber, ammo.ammoAmount);
+                    activeWeapon.bulletsLeft += ammoToReplenishInChamber;
+
+                    // Replenish the total ammo, but do not exceed the max
+                    totalPistolAmmo = Mathf.Min(totalPistolAmmo + ammo.ammoAmount, maxPistolAmmo);
+                }
                 break;
+
             case AmmoBox.AmmoType.RifleAmmo:
-                totalRifleAmmo = Mathf.Min(totalRifleAmmo + ammo.ammoAmount, maxRifleAmmo);
+                // Replenish ammo in the chamber (weapon's magazine)
+                activeWeapon = activeWeaponSlot.transform.GetChild(0).GetComponent<PlayerWeapon>();
+                if (activeWeapon.thisWeaponModel == PlayerWeapon.WeaponModel.M4A1_AssaultRifle)
+                {
+                    // Fill the chamber with available ammo first
+                    int ammoNeededForChamber = activeWeapon.magazineSize - activeWeapon.bulletsLeft;
+                    int ammoToReplenishInChamber = Mathf.Min(ammoNeededForChamber, ammo.ammoAmount);
+                    activeWeapon.bulletsLeft += ammoToReplenishInChamber;
+
+                    // Replenish the total ammo, but do not exceed the max
+                    totalRifleAmmo = Mathf.Min(totalRifleAmmo + ammo.ammoAmount, maxRifleAmmo);
+                }
                 break;
         }
     }
-
 
 
     private void AddWeaponIntoActiveSlot(GameObject pickedUpWeapon)
