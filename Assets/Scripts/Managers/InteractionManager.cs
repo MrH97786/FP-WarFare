@@ -7,11 +7,12 @@ public class InteractionManager : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction pickupAction;
+    private InputAction interactAction; 
 
     public PlayerWeapon hoveredOverWeapon = null;
     public AmmoBox hoveredOverAmmoBox = null;
 
-    private bool justPickedUp = false; // ✅ Prevents immediate re-pickup
+    private bool justPickedUp = false; 
 
     private void Awake()
     {
@@ -27,18 +28,25 @@ public class InteractionManager : MonoBehaviour
         // Initialize PlayerInput
         playerInput = new PlayerInput();
         pickupAction = playerInput.OnFoot.Pickup;
+        interactAction = playerInput.OnFoot.Interact; 
     }
 
     private void OnEnable()
     {
         pickupAction.Enable();
+        interactAction.Enable(); 
+
         pickupAction.performed += OnPickup;
+        interactAction.performed += OnInteract; 
     }
 
     private void OnDisable()
     {
         pickupAction.Disable();
+        interactAction.Disable(); 
+
         pickupAction.performed -= OnPickup;
+        interactAction.performed -= OnInteract;
     }
 
     private float interactionRange = 2f; // range for raycast
@@ -71,9 +79,9 @@ public class InteractionManager : MonoBehaviour
 
                 if (pickupAction.triggered && !justPickedUp)
                 {
-                    justPickedUp = true;  // ✅ Set flag to prevent instant re-pickup
+                    justPickedUp = true;  
                     WeaponManager.Instance.WeaponPickup(hoveredOverWeapon.gameObject);
-                    Invoke(nameof(ResetPickupFlag), 0.2f); // ✅ Reset flag after delay
+                    Invoke(nameof(ResetPickupFlag), 0.2f);
                 }
             }
             else if (hoveredOverWeapon)
@@ -95,8 +103,7 @@ public class InteractionManager : MonoBehaviour
                     hoveredOverAmmoBox.GetComponent<Outline>().enabled = true;
                 }
 
-
-                if (pickupAction.triggered)
+                if (interactAction.triggered) 
                 {
                     WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox);
                 }
@@ -129,6 +136,14 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
+    private void OnInteract(InputAction.CallbackContext context) // New method for AmmoBox interaction
+    {
+        if (hoveredOverAmmoBox != null)
+        {
+            WeaponManager.Instance.AmmoPickup(hoveredOverAmmoBox);
+        }
+    }
+
     private void ResetWeaponHighlight()
     {
         if (hoveredOverWeapon != null)
@@ -140,6 +155,6 @@ public class InteractionManager : MonoBehaviour
 
     private void ResetPickupFlag()
     {
-        justPickedUp = false; // ✅ Allows switching weapons after a delay
+        justPickedUp = false;
     }
 }

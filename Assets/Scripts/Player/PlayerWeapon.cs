@@ -134,7 +134,7 @@ public class PlayerWeapon : MonoBehaviour
 
         PlayerBullet bulletScript = bullet.GetComponent<PlayerBullet>();
         bulletScript.bulletDamage = weaponDamage;
-        
+
         bullet.transform.forward = shootingDirection;
 
         // Shoot the bullet and add force
@@ -187,19 +187,16 @@ public class PlayerWeapon : MonoBehaviour
 
     private void ReloadCompleted()
     {
-        if (WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel) > magazineSize)
-        {
-            bulletsLeft = magazineSize;
-            WeaponManager.Instance.DecreaseTotalAmmo(bulletsLeft, thisWeaponModel);
-        }
-        else
-        {
-            bulletsLeft = WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel);
-            WeaponManager.Instance.DecreaseTotalAmmo(bulletsLeft, thisWeaponModel);
-        }
+        int bulletsNeeded = magazineSize - bulletsLeft; // Calculate only the missing bullets
+        int availableAmmo = WeaponManager.Instance.CheckAmmoLeftFor(thisWeaponModel);
+        int bulletsToLoad = Mathf.Min(availableAmmo, bulletsNeeded); // Load only what's available
+
+        bulletsLeft += bulletsToLoad; // Add the bullets to the magazine
+        WeaponManager.Instance.DecreaseTotalAmmo(bulletsToLoad, thisWeaponModel); // Deduct only used bullets
 
         isReloading = false;
     }
+
 
     private void ResetShot()
     {
