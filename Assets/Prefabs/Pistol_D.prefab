@@ -4909,7 +4909,7 @@ MonoBehaviour:
   bulletLifeTime: 3
   muzzleEffect: {fileID: 30280015353743359}
   reloadTime: 1.5
-  magazineSize: 10
+  magazineSize: 30
   bulletsLeft: 0
   isReloading: 0
   spawnPosition: {x: 0.2210004, y: -0.2, z: 0.585}
@@ -4979,7 +4979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   useEvents: 1
-  promptMessage: 
+  promptMessage: Press (F) to Pick Up
 --- !u!114 &3878751908302849020
 MonoBehaviour:
   m_ObjectHideFlags: 0
