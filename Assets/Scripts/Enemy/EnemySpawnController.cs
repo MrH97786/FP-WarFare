@@ -47,16 +47,15 @@ public class EnemySpawnController : MonoBehaviour
     {
         for (int i = 0; i < currentEnemiesPerWave; i++)
         {
-            // Generate a random offset within a specified range
-            Vector3 spawnOffset = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f));
-            Vector3 spawnPosition = transform.position + spawnOffset;
-
-            // Creating the enemy
-            var enemyObject = Instantiate(Enemy, spawnPosition, Quaternion.identity);
+            // Get random spawn point from the child objects
+            Transform spawnPoint = GetRandomSpawnPoint();
+            
+            // Create the enemy at the chosen spawn point
+            var enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
             // Assign the nearest EnemyPath
             Enemy enemyScript = enemyObject.GetComponent<Enemy>();
-            enemyScript.enemyPath = FindClosestEnemyPath(spawnPosition);
+            enemyScript.enemyPath = FindClosestEnemyPath(spawnPoint.position);
 
             if (enemyScript.enemyPath == null)
             {
@@ -68,6 +67,27 @@ public class EnemySpawnController : MonoBehaviour
 
             yield return new WaitForSeconds(spawnDelay);
         }
+    }
+
+    // Function to get a random spawn point from child objects
+    private Transform GetRandomSpawnPoint()
+    {
+        // Get all child objects (spawn points)
+        Transform[] spawnPoints = GetComponentsInChildren<Transform>();
+
+        // Filter out the spawner object itself from the list of spawn points
+        List<Transform> validSpawnPoints = new List<Transform>();
+        foreach (Transform spawnPoint in spawnPoints)
+        {
+            if (spawnPoint != transform)  // Avoid using the spawner itself as a spawn point
+            {
+                validSpawnPoints.Add(spawnPoint);
+            }
+        }
+
+        // Choose a random spawn point
+        int randomIndex = Random.Range(0, validSpawnPoints.Count);
+        return validSpawnPoints[randomIndex];
     }
 
     // Function to find the closest EnemyPath
@@ -109,7 +129,6 @@ public class EnemySpawnController : MonoBehaviour
         // Starting wave cooldown once every enemy is dead
         if (currentEnemiesAlive.Count == 0 && !inCoolDown)
         {
-            //Debug.Log("All enemies are dead. Starting WaveCoolDown...");
             StartCoroutine(WaveCoolDown());
         }
 
