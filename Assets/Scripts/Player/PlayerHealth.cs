@@ -7,13 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
-    private float health;
+    [SerializeField] private float health;
     private float lerpTimer;
     public GameObject gameOverUI;
     public bool isDead;  // Add a flag to check if the player is dead
 
     [Header("Health Bar")]
-    public float maxHealth = 100;
+    public float maxHealth = 300;
     public float barDelay = 2f; // speed of the delay bar takes to catch up to health lost
     public Image frontHealthBar;
     public Image backHealthBar;
@@ -97,11 +97,30 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    public void HealthRestore(float healVal)
+    public void HealthRestore()
     {
-        health += healVal;
-        lerpTimer = 0f;
+        int healCost = 200; // Cost to heal
+
+        if (health >= maxHealth) // Prevent interaction if health is already full
+        {
+            Debug.Log("Health is already full. Cannot restore.");
+            return;
+        }
+
+        if (ScoreManager.instance.HasEnoughPoints(healCost)) // Check if the player has enough points
+        {
+            ScoreManager.instance.DeductPoints(healCost); // Deduct points
+            health = maxHealth; // Set health to full
+            lerpTimer = 0f;
+            Debug.Log("Health restored! -" + healCost + " points deducted.");
+        }
+        else
+        {
+            Debug.Log("Not enough points to restore health!");
+        }
     }
+
+
 
     private void PlayerDead()
     {
@@ -134,7 +153,7 @@ public class PlayerHealth : MonoBehaviour
         {
             SaveLoadManager.Instance.SaveHighScore(waveSurvived - 1);
         }
-        
+
         StartCoroutine(ReturnToMainMenu());
     }
 
