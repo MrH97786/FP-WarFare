@@ -17,12 +17,14 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
+        GlobalReferences.Instance.scoreNumber = score;
         scoreText.text = score.ToString();
     }
 
     public void AddPoints()
     {
-        score += 350;
+        score += 50;
+        GlobalReferences.Instance.scoreNumber = score;
         scoreText.text = score.ToString();
     }
 
@@ -36,6 +38,7 @@ public class ScoreManager : MonoBehaviour
         if (HasEnoughPoints(amount))
         {
             score -= amount;
+            GlobalReferences.Instance.scoreNumber = score;
             scoreText.text = score.ToString();
         }
     }

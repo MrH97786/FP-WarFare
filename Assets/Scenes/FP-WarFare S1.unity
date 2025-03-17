@@ -52913,7 +52913,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1422232541
 Transform:
   m_ObjectHideFlags: 0
@@ -60849,7 +60849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 376f5aa6106cf744080364fcff1f7f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialEnemiesPerWave: 1
+  initialEnemiesPerWave: 2
   currentEnemiesPerWave: 0
   spawnDelay: 0.5
   currentWave: 0
@@ -64436,7 +64436,7 @@ MonoBehaviour:
   health: 0
   gameOverUI: {fileID: 2032724433}
   isDead: 0
-  maxHealth: 50
+  maxHealth: 200
   barDelay: 2
   frontHealthBar: {fileID: 575160647}
   backHealthBar: {fileID: 891518607}

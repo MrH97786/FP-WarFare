@@ -10,6 +10,7 @@ public class GlobalReferences : MonoBehaviour
     public GameObject bloodSprayEffect;
 
     public int waveNumber;
+    public int scoreNumber;
 
     private void Awake()
     {

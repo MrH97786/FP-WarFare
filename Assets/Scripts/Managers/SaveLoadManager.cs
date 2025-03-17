@@ -7,7 +7,7 @@ public class SaveLoadManager : MonoBehaviour
     public static SaveLoadManager Instance { get; set; }
 
     string highScoreKey = "BestWaveSavedValue";
-
+    string highPointKey = "BestScorePointsSavedValue";
 
     private void Awake()
     {
@@ -33,6 +33,23 @@ public class SaveLoadManager : MonoBehaviour
         if (PlayerPrefs.HasKey(highScoreKey))
         {
             return PlayerPrefs.GetInt(highScoreKey);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void SaveHighPointScore(int score)
+    {
+        PlayerPrefs.SetInt(highPointKey, score);
+    }
+
+    public int LoadHighPointScore()
+    {
+        if (PlayerPrefs.HasKey(highPointKey))
+        {
+            return PlayerPrefs.GetInt(highPointKey);
         }
         else
         {

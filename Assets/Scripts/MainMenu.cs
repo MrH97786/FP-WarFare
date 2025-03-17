@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public TMP_Text highScoreUI;
+    public TMP_Text highPointScoreUI;
 
     string newGameScene = "FP-WarFare S1";
 
@@ -17,8 +18,12 @@ public class MainMenu : MonoBehaviour
     {
         main_channel.clip = background_music; 
         main_channel.Play();
+
         int highScore = SaveLoadManager.Instance.LoadHighScore();
         highScoreUI.text = $"Highest Wave Survived: {highScore}";
+
+        int highPointScore = SaveLoadManager.Instance.LoadHighPointScore();
+        highPointScoreUI.text = $"Highest Points Earned: {highPointScore}";
     }
 
     public void StartNewGame()

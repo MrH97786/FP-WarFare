@@ -5,7 +5,7 @@ using TMPro;
 
 public class EnemySpawnController : MonoBehaviour
 {
-    public int initialEnemiesPerWave = 5;
+    public int initialEnemiesPerWave = 2;
     public int currentEnemiesPerWave;
 
     public float spawnDelay = 0.5f;
@@ -49,7 +49,7 @@ public class EnemySpawnController : MonoBehaviour
         {
             // Get random spawn point from the child objects
             Transform spawnPoint = GetRandomSpawnPoint();
-            
+
             // Create the enemy at the chosen spawn point
             var enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
@@ -147,7 +147,7 @@ public class EnemySpawnController : MonoBehaviour
     private IEnumerator WaveCoolDown()
     {
         Debug.Log("WaveCoolDown coroutine started");
-        
+
         // Once inCoolDown is true, activate title
         inCoolDown = true;
         titleWaveOver1.gameObject.SetActive(true);
@@ -162,7 +162,14 @@ public class EnemySpawnController : MonoBehaviour
         titleWaveOver2.gameObject.SetActive(false);
 
         // Reset wave state and prepare for the next wave
-        currentEnemiesPerWave *= 2;
+        if (currentWave >= 4)
+        {
+            currentEnemiesPerWave *= 1;  // After the 4th wave, enemies no longer increase
+        }
+        else
+        {
+            currentEnemiesPerWave *= 2; // Before the 4th wave, double the enemies
+        }
         StartNextWave();
     }
 }

@@ -148,10 +148,15 @@ public class PlayerHealth : MonoBehaviour
         gameOverUI.gameObject.SetActive(true);
 
         int waveSurvived = GlobalReferences.Instance.waveNumber;
-
         if (waveSurvived - 1 > SaveLoadManager.Instance.LoadHighScore())
         {
             SaveLoadManager.Instance.SaveHighScore(waveSurvived - 1);
+        }
+
+        int highestPoints = GlobalReferences.Instance.scoreNumber;
+        if (highestPoints > SaveLoadManager.Instance.LoadHighPointScore())
+        {
+            SaveLoadManager.Instance.SaveHighPointScore(highestPoints);
         }
 
         StartCoroutine(ReturnToMainMenu());
