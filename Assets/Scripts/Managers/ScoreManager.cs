@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
 
     public void AddPoints()
     {
-        score += 50;
+        score += 1000;
         GlobalReferences.Instance.scoreNumber = score;
         scoreText.text = score.ToString();
     }

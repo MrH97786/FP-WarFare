@@ -6,9 +6,6 @@ public class SaveLoadManager : MonoBehaviour
 {
     public static SaveLoadManager Instance { get; set; }
 
-    string highScoreKey = "BestWaveSavedValue";
-    string highPointKey = "BestScorePointsSavedValue";
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -23,37 +20,23 @@ public class SaveLoadManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void SaveHighScore(int score)
+    public void SaveHighScore(int level, int score)
     {
-        PlayerPrefs.SetInt(highScoreKey, score);
+        PlayerPrefs.SetInt($"HighScore_Level{level}", score);
     }
 
-    public int LoadHighScore()
+    public int LoadHighScore(int level)
     {
-        if (PlayerPrefs.HasKey(highScoreKey))
-        {
-            return PlayerPrefs.GetInt(highScoreKey);
-        }
-        else
-        {
-            return 0;
-        }
+        return PlayerPrefs.GetInt($"HighScore_Level{level}", 0);
     }
 
-    public void SaveHighPointScore(int score)
+    public void SaveHighPointScore(int level, int score)
     {
-        PlayerPrefs.SetInt(highPointKey, score);
+        PlayerPrefs.SetInt($"HighPoint_Level{level}", score);
     }
 
-    public int LoadHighPointScore()
+    public int LoadHighPointScore(int level)
     {
-        if (PlayerPrefs.HasKey(highPointKey))
-        {
-            return PlayerPrefs.GetInt(highPointKey);
-        }
-        else
-        {
-            return 0;
-        }
+        return PlayerPrefs.GetInt($"HighPoint_Level{level}", 0);
     }
 }

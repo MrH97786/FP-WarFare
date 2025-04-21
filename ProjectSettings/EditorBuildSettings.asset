@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FP-WarFare S1.unity
     guid: 380baa905b1dda549be602387b43b78f
+  - enabled: 1
+    path: Assets/Scenes/FP-WarFare S2.unity
+    guid: bbc2b7605f48a3d46b3f535493823298
   m_configObjects: {}

@@ -32188,7 +32188,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &799959830
 Transform:
   m_ObjectHideFlags: 0
@@ -34575,6 +34575,7 @@ MonoBehaviour:
   bulletImpactEffect: {fileID: 7479552332411969334, guid: 8ac38efad6f441c448af23127c724507, type: 3}
   bloodSprayEffect: {fileID: 3537409833558169573, guid: 031ff2bfbab5fcb47aa322c586e71279, type: 3}
   waveNumber: 0
+  scoreNumber: 0
 --- !u!4 &867911654
 Transform:
   m_ObjectHideFlags: 0

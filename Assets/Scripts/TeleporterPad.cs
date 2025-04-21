@@ -12,20 +12,24 @@ public class TeleporterPad : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+
             GetComponent<PlayerScreenBlackout>().StartFade();
             LevelCompleteUI.gameObject.SetActive(true);
 
+            int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
             int waveSurvived = GlobalReferences.Instance.waveNumber;
-            if (waveSurvived - 1 > SaveLoadManager.Instance.LoadHighScore())
+            if (waveSurvived - 1 > SaveLoadManager.Instance.LoadHighScore(currentSceneIndex))
             {
-                SaveLoadManager.Instance.SaveHighScore(waveSurvived - 1);
+                SaveLoadManager.Instance.SaveHighScore(currentSceneIndex, waveSurvived - 1);
             }
 
             int highestPoints = GlobalReferences.Instance.scoreNumber;
-            if (highestPoints > SaveLoadManager.Instance.LoadHighPointScore())
+            if (highestPoints > SaveLoadManager.Instance.LoadHighPointScore(currentSceneIndex))
             {
-                SaveLoadManager.Instance.SaveHighPointScore(highestPoints);
+                SaveLoadManager.Instance.SaveHighPointScore(currentSceneIndex, highestPoints);
             }
+
 
             StartCoroutine(ReturnToMainMenu(4f));
         }
@@ -34,10 +38,18 @@ public class TeleporterPad : MonoBehaviour
 
     private IEnumerator ReturnToMainMenu(float delayBeforeReturn)
     {
-        // Wait for a delay (e.g., to show the level complete message)
         yield return new WaitForSeconds(delayBeforeReturn);
 
-        // Load the Main Menu scene
-        SceneManager.LoadScene("MainMenu");
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        if (currentSceneIndex == 1) // Level 1
+        {
+            SceneManager.LoadScene(2); // Load Level 2
+        }
+        else if (currentSceneIndex == 2) // Level 2
+        {
+            SceneManager.LoadScene(0); // Load Main Menu
+        }
     }
+
 }
