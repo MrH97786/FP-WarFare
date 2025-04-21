@@ -1697,7 +1697,6 @@ GameObject:
   - component: {fileID: 38256601}
   - component: {fileID: 39255321}
   - component: {fileID: 45768825}
-  - component: {fileID: 47715897}
   - component: {fileID: 34884985}
   - component: {fileID: 56359609}
   - component: {fileID: 56247065}
@@ -2089,31 +2088,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54d08ba60661ea943a645c9fdbb4d353, type: 3}
---- !u!114 &47715897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 41182169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a12a6df1fe650d441955e878d144f941, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  instantTeleport: 1
-  randomTeleport: 1
-  buttonTeleport: 0
-  buttonName: Action
-  delayedTeleport: 0
-  teleportTime: 0
-  objectTag: empty = any object
-  destinationPad: []
-  teleportationHeightOffset: 0
-  arrived: 0
-  teleportSound: {fileID: 34142779}
-  teleportPadSound: {fileID: 34142777}
-  teleportPadOn: 1
 --- !u!1001 &49044383
 PrefabInstance:
   m_ObjectHideFlags: 0

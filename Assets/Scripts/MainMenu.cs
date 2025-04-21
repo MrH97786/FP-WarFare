@@ -35,6 +35,27 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(newGameScene);
     }
 
+    public void SelectLevel(int levelId)
+    {
+        string levelName = "";
+
+        switch (levelId)
+        {
+            case 1:
+                levelName = "FP-WarFare S1";
+                break;
+            case 2:
+                levelName = "FP-WarFare S2";
+                break;
+            default:
+                Debug.LogError("Invalid level ID selected: " + levelId);
+                return;
+        }
+
+        SceneManager.LoadScene(levelName);
+    }
+
+
     public void ExitApplication()
     {
         Application.Quit();
