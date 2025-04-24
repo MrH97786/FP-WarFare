@@ -14,23 +14,54 @@ public class EnemySpawnController : MonoBehaviour
     public float waveCoolDownTimer = 10.0f;
 
     public bool inCoolDown;
-    public float coolDownCounter = 0;  // This is for testing purposes
+    public float coolDownCounter = 0;
 
     public List<Enemy> currentEnemiesAlive = new List<Enemy>();
 
-    public GameObject Enemy; // Must be assigned in the Inspector
+    public GameObject Enemy;
 
-    public TextMeshProUGUI titleWaveOver1; // first line of the title
-    public TextMeshProUGUI titleWaveOver2; // second line of the title
-    public TextMeshProUGUI coolDownCounterUI; // counter in the title
-
+    public TextMeshProUGUI titleWaveOver1;
+    public TextMeshProUGUI titleWaveOver2;
+    public TextMeshProUGUI coolDownCounterUI;
     public TextMeshProUGUI currentWaveUI;
 
     private void Start()
     {
-        currentEnemiesPerWave = initialEnemiesPerWave;
+        // Load wave number from save
+        if (SaveLoadManager.Instance.cachedWave != -1)
+        {
+            currentWave = SaveLoadManager.Instance.cachedWave;
+        }
+
+        // Determine enemies per wave based on currentWave
+        if (currentWave == 0)
+        {
+            currentEnemiesPerWave = initialEnemiesPerWave; // Wave 1
+        }
+        else if (currentWave == 1)
+        {
+            currentEnemiesPerWave = initialEnemiesPerWave * 2; // Wave 2
+        }
+        else if (currentWave == 2)
+        {
+            currentEnemiesPerWave = initialEnemiesPerWave * 4; // Wave 3
+        }
+        else
+        {
+            currentEnemiesPerWave = 16; // Wave 4 and onwards
+        }
+
         GlobalReferences.Instance.waveNumber = currentWave;
-        StartNextWave();
+        StartWaveFromSave();
+    }
+
+    private void StartWaveFromSave()
+    {
+        currentEnemiesAlive.Clear();
+        GlobalReferences.Instance.waveNumber = currentWave;
+
+        currentWaveUI.text = "Wave: " + currentWave.ToString();
+        StartCoroutine(SpawnWave());
     }
 
     private void StartNextWave()
@@ -47,13 +78,10 @@ public class EnemySpawnController : MonoBehaviour
     {
         for (int i = 0; i < currentEnemiesPerWave; i++)
         {
-            // Get random spawn point from the child objects
             Transform spawnPoint = GetRandomSpawnPoint();
 
-            // Create the enemy at the chosen spawn point
             var enemyObject = Instantiate(Enemy, spawnPoint.position, Quaternion.identity);
 
-            // Assign the nearest EnemyPath
             Enemy enemyScript = enemyObject.GetComponent<Enemy>();
             enemyScript.enemyPath = FindClosestEnemyPath(spawnPoint.position);
 
@@ -62,35 +90,29 @@ public class EnemySpawnController : MonoBehaviour
                 Debug.LogError("No EnemyPath found near the spawned enemy.");
             }
 
-            // Track the enemy
             currentEnemiesAlive.Add(enemyScript);
 
             yield return new WaitForSeconds(spawnDelay);
         }
     }
 
-    // Function to get a random spawn point from child objects
     private Transform GetRandomSpawnPoint()
     {
-        // Get all child objects (spawn points)
         Transform[] spawnPoints = GetComponentsInChildren<Transform>();
-
-        // Filter out the spawner object itself from the list of spawn points
         List<Transform> validSpawnPoints = new List<Transform>();
+
         foreach (Transform spawnPoint in spawnPoints)
         {
-            if (spawnPoint != transform)  // Avoid using the spawner itself as a spawn point
+            if (spawnPoint != transform)
             {
                 validSpawnPoints.Add(spawnPoint);
             }
         }
 
-        // Choose a random spawn point
         int randomIndex = Random.Range(0, validSpawnPoints.Count);
         return validSpawnPoints[randomIndex];
     }
 
-    // Function to find the closest EnemyPath
     private EnemyPath FindClosestEnemyPath(Vector3 position)
     {
         EnemyPath[] allPaths = FindObjectsOfType<EnemyPath>();
@@ -112,12 +134,8 @@ public class EnemySpawnController : MonoBehaviour
 
     private void Update()
     {
-        // Remove null or destroyed enemies
-        int beforeCount = currentEnemiesAlive.Count;
         currentEnemiesAlive.RemoveAll(enemy => enemy == null || enemy.isDead);
-        int afterCount = currentEnemiesAlive.Count;
 
-        // Debugging: Check for any remaining null enemies
         foreach (Enemy enemy in currentEnemiesAlive)
         {
             if (enemy == null)
@@ -126,7 +144,6 @@ public class EnemySpawnController : MonoBehaviour
             }
         }
 
-        // Starting wave cooldown once every enemy is dead
         if (currentEnemiesAlive.Count == 0 && !inCoolDown)
         {
             StartCoroutine(WaveCoolDown());
@@ -134,11 +151,11 @@ public class EnemySpawnController : MonoBehaviour
 
         if (inCoolDown)
         {
-            coolDownCounter -= Time.deltaTime; // Run cooldown timer
+            coolDownCounter -= Time.deltaTime;
         }
         else
         {
-            coolDownCounter = waveCoolDownTimer; // Reset the counter
+            coolDownCounter = waveCoolDownTimer;
         }
 
         coolDownCounterUI.text = coolDownCounter.ToString("F0");
@@ -148,28 +165,26 @@ public class EnemySpawnController : MonoBehaviour
     {
         Debug.Log("WaveCoolDown coroutine started");
 
-        // Once inCoolDown is true, activate title
         inCoolDown = true;
         titleWaveOver1.gameObject.SetActive(true);
         titleWaveOver2.gameObject.SetActive(true);
 
-        // Wait for the cooldown duration
         yield return new WaitForSeconds(waveCoolDownTimer);
 
-        // Once inCoolDown is false, deactivate title
         inCoolDown = false;
         titleWaveOver1.gameObject.SetActive(false);
         titleWaveOver2.gameObject.SetActive(false);
 
-        // Reset wave state and prepare for the next wave
+        // Adjust enemies per wave based on the new wave
         if (currentWave >= 4)
         {
-            currentEnemiesPerWave *= 1;  // After the 4th wave, enemies no longer increase
+            currentEnemiesPerWave = 16;
         }
         else
         {
-            currentEnemiesPerWave *= 2; // Before the 4th wave, double the enemies
+            currentEnemiesPerWave *= 2;
         }
+
         StartNextWave();
     }
 }

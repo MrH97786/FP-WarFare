@@ -8,6 +8,7 @@ public class PauseMenuManager : MonoBehaviour
 
     private PlayerInput playerInput; 
     private PlayerInput.UIActions uiActions;
+    public PlayerHealth playerHealth;
 
     private bool isPaused = false;
 
@@ -46,11 +47,29 @@ public class PauseMenuManager : MonoBehaviour
     }
 
     public void SaveAndQuit()
+{
+    if (SaveSystem.Instance == null)
     {
-        //Save Logic needs to go here
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        Debug.LogError("SaveSystem.Instance is null!");
+        return;
     }
+    if (GlobalReferences.Instance == null)
+    {
+        Debug.LogError("GlobalReferences.Instance is null!");
+        return;
+    }
+    if (playerHealth == null)
+    {
+        Debug.LogError("playerHealth is null!");
+        return;
+    }
+
+    SaveSystem.Instance.SavePlayerData(GlobalReferences.Instance, playerHealth);
+
+    Time.timeScale = 1f;
+    SceneManager.LoadScene("MainMenu");
+}
+
 
     void OnEnable()
     {

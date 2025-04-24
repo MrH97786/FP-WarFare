@@ -27,8 +27,18 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        health = maxHealth;
+        if (SaveLoadManager.Instance.cachedHealth > 0)
+        {
+            health = SaveLoadManager.Instance.cachedHealth;
+            SaveLoadManager.Instance.cachedHealth = -1f; // Reset after applying
+        }
+        else
+        {
+            health = maxHealth;
+        }
         damageOverlay.color = new Color(damageOverlay.color.r, damageOverlay.color.g, damageOverlay.color.b, 0);
+        lerpTimer = 0f;
+        UpdateHealthUI();
     }
 
     // Update is called once per frame
@@ -56,6 +66,15 @@ public class PlayerHealth : MonoBehaviour
             }
         }
     }
+
+    // Getter and Seter 
+    public float Health
+    {
+        get => health;
+        set => health = Mathf.Clamp(value, 0, maxHealth);
+    }
+
+
 
     public void UpdateHealthUI()
     {

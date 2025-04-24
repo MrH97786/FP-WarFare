@@ -6,6 +6,10 @@ public class SaveLoadManager : MonoBehaviour
 {
     public static SaveLoadManager Instance { get; set; }
 
+    public float cachedHealth = -1f;
+    public int cachedWave = -1;
+    public int cachedScore = -1;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,3 +44,4 @@ public class SaveLoadManager : MonoBehaviour
         return PlayerPrefs.GetInt($"HighPoint_Level{level}", 0);
     }
 }
+

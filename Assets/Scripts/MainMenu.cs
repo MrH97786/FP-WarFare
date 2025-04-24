@@ -35,6 +35,24 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(newGameScene);
     }
 
+    public void ContinueGame()
+    {
+        PlayerData data = SaveSystem.Instance.LoadPlayerData();
+        if (data != null)
+        {
+            GlobalReferences.Instance.waveNumber = data.waveNumber;
+            GlobalReferences.Instance.scoreNumber = data.score;
+
+            SaveLoadManager.Instance.cachedHealth = data.health;
+            SaveLoadManager.Instance.cachedWave = data.waveNumber;
+            SaveLoadManager.Instance.cachedScore = data.score;
+        }
+
+        SceneManager.LoadScene(newGameScene);
+    }
+
+
+
     public void SelectLevel(int levelId)
     {
         string levelName = "";

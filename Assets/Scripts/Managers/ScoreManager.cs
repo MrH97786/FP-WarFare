@@ -17,6 +17,11 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
+        // Load score from the saved data if available
+        if (SaveLoadManager.Instance.cachedScore != -1)
+        {
+            score = SaveLoadManager.Instance.cachedScore;
+        }
         GlobalReferences.Instance.scoreNumber = score;
         scoreText.text = score.ToString();
     }
