@@ -42,11 +42,11 @@ public class TeleporterPad : MonoBehaviour
 
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (currentSceneIndex == 1) // Level 1
+        if (currentSceneIndex == 2) // Level 1
         {
-            SceneManager.LoadScene(2); // Load Level 2
+            SceneManager.LoadScene(3); // Load Level 2
         }
-        else if (currentSceneIndex == 2) // Level 2
+        else if (currentSceneIndex == 3) // Level 2
         {
             SceneManager.LoadScene(0); // Load Main Menu
         }
