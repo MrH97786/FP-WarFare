@@ -2860,6 +2860,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038864440}
   m_CullTransparentMesh: 1
+--- !u!1 &1051343796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1051343798}
+  - component: {fileID: 1051343797}
+  m_Layer: 0
+  m_Name: GlobalReferences
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1051343797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051343796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a75ee04533814d447b536d0d856acd12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletImpactEffect: {fileID: 7479552332411969334, guid: 8ac38efad6f441c448af23127c724507, type: 3}
+  bloodSprayEffect: {fileID: 3537409833558169573, guid: 031ff2bfbab5fcb47aa322c586e71279, type: 3}
+  waveNumber: 0
+  scoreNumber: 0
+--- !u!4 &1051343798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051343796}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -8.306942, y: 4.8653164, z: -8.082938}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1075454473
 GameObject:
   m_ObjectHideFlags: 0
@@ -4812,6 +4859,7 @@ MonoBehaviour:
   level1PointsText: {fileID: 1888917198}
   level2WaveText: {fileID: 1954865957}
   level2PointsText: {fileID: 1196400596}
+  continueButton: {fileID: 996126880}
   main_channel: {fileID: 1813261106}
   background_music: {fileID: 8300000, guid: 7a827964841ef7c46a92e31955d61518, type: 3}
 --- !u!4 &1813261105

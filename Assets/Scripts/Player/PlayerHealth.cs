@@ -187,6 +187,19 @@ public class PlayerHealth : MonoBehaviour
     private IEnumerator ReturnToMainMenu()
     {
         yield return new WaitForSeconds(4f);
+
+        // Clear save data
+        string path = Application.persistentDataPath + "/playerdata.json";
+        if (System.IO.File.Exists(path)) System.IO.File.Delete(path);
+
+        SaveLoadManager.Instance.cachedHealth = -1f;
+        SaveLoadManager.Instance.cachedWave = -1;
+        SaveLoadManager.Instance.cachedScore = -1;
+
+        GlobalReferences.Instance.waveNumber = 1;
+        GlobalReferences.Instance.scoreNumber = 0;
+
         SceneManager.LoadScene("MainMenu");
     }
+
 }
