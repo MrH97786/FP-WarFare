@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     public TMP_Text level2WaveText;
     public TMP_Text level2PointsText;
 
-    string newGameScene = "FP-WarFare S1";
+    string newGameScene = "CutScene";
     public Button continueButton;
 
     public AudioSource main_channel;
@@ -72,7 +72,7 @@ public class MainMenu : MonoBehaviour
             SaveLoadManager.Instance.cachedScore = data.score;
         }
 
-        SceneManager.LoadScene(newGameScene);
+        SceneManager.LoadScene("FP-WarFare S1");
     }
 
 
@@ -80,6 +80,18 @@ public class MainMenu : MonoBehaviour
     public void SelectLevel(int levelId)
     {
         string levelName = "";
+
+        // Reset all saved data to start fresh
+        SaveLoadManager.Instance.cachedHealth = -1f;
+        SaveLoadManager.Instance.cachedWave = -1;
+        SaveLoadManager.Instance.cachedScore = -1;
+
+        GlobalReferences.Instance.waveNumber = 1;
+        GlobalReferences.Instance.scoreNumber = 0;
+
+        // Optionally delete any existing save file so "Continue" doesn't use it
+        string path = Application.persistentDataPath + "/playerdata.json";
+        if (File.Exists(path)) File.Delete(path);
 
         switch (levelId)
         {
@@ -96,6 +108,7 @@ public class MainMenu : MonoBehaviour
 
         SceneManager.LoadScene(levelName);
     }
+
 
 
     public void ExitApplication()

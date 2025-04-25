@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: fcda677bb309bd0429e7aed8740119ee
   - enabled: 1
+    path: Assets/Scenes/CutScene.unity
+    guid: d77523808f4eac644b9603f7f79cc1f8
+  - enabled: 1
     path: Assets/Scenes/FP-WarFare S1.unity
     guid: 380baa905b1dda549be602387b43b78f
   - enabled: 1
